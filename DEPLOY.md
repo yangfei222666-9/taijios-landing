@@ -1,9 +1,9 @@
-# 部署清单 · taijios.ai
+# 部署清单 · taijios.xyz
 
 ## 一 · 买域名 (5 分钟)
 
 - 打开 https://porkbun.com/products/domains
-- 搜 `taijios.ai` · 加购 · 付 ~$70/yr (Visa/Mastercard)
+- 搜 `taijios.xyz` · 加购 · 付 ~$70/yr (Visa/Mastercard)
 - **勾选 WHOIS Privacy** (免费 · 避免个人信息公开)
 - **勾选 SSL 自动续签** (免费)
 - 结账 · 收邮件确认
@@ -14,7 +14,7 @@
 cd g:/taijios-landing
 git init
 git add index.html DEPLOY.md
-git commit -m "init: taijios.ai landing v0.1"
+git commit -m "init: taijios.xyz landing v0.1"
 gh repo create yangfei222666-9/taijios-landing --public --source=. --push
 ```
 
@@ -25,16 +25,16 @@ gh repo create yangfei222666-9/taijios-landing --public --source=. --push
 3. Branch: `main` · folder `/ (root)`
 4. Save · 等约 30 秒出现 `https://yangfei222666-9.github.io/taijios-landing/` · 先验证站跑通
 
-## 四 · 绑定 taijios.ai (10 分钟 + DNS 传播)
+## 四 · 绑定 taijios.xyz (10 分钟 + DNS 传播)
 
 ### Step 1 · GitHub 侧
-1. 仓库根目录新建文件 `CNAME` (无后缀) · 内容就一行 `taijios.ai`
+1. 仓库根目录新建文件 `CNAME` (无后缀) · 内容就一行 `taijios.xyz`
 2. commit push
-3. Settings → Pages → Custom domain 填 `taijios.ai` · Save
+3. Settings → Pages → Custom domain 填 `taijios.xyz` · Save
 4. 等 DNS Check 绿 · 勾 Enforce HTTPS
 
 ### Step 2 · Porkbun DNS 侧
-进 Porkbun 控制台 · Domain Management → taijios.ai → DNS → 添加:
+进 Porkbun 控制台 · Domain Management → taijios.xyz → DNS → 添加:
 
 ```
 A       @     185.199.108.153
@@ -50,9 +50,9 @@ CNAME   www   yangfei222666-9.github.io
 
 ## 五 · 上线后验证
 
-- `https://taijios.ai/` 打开 · 出内容 · HTTPS 绿锁
-- `curl -I https://taijios.ai/` 返回 200
-- `https://taijios.ai/` vs `https://www.taijios.ai/` 都要能跳
+- `https://taijios.xyz/` 打开 · 出内容 · HTTPS 绿锁
+- `curl -I https://taijios.xyz/` 返回 200
+- `https://taijios.xyz/` vs `https://www.taijios.xyz/` 都要能跳
 - Telegram / 微信发链接 · 看 og:image 预览 (og.png 还没做 · 可以后补)
 
 ## 六 · 待补 (非阻塞)

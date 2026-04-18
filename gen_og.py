@@ -106,7 +106,7 @@ draw.text((60, 460), "DeepSeek $0.1 打平 Opus $6.5 · 60 倍差价", font=mono
 
 # ════════════════ 底部 CTA ════════════════
 cta_font = ImageFont.truetype("C:/Windows/Fonts/consola.ttf", 24)
-draw.text((60, 540), "taijios.ai", font=ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", 28), fill=(255,217,74))
+draw.text((60, 540), "taijios.xyz", font=ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", 28), fill=(255,217,74))
 draw.text((210, 544), "· 晶体池开放 · 人越多越准 · 欢迎接", font=rank_font, fill=(201,168,255))
 
 # ════════════════ 四角 HUD 装饰 ════════════════
