@@ -1,6 +1,6 @@
 ---
 title: "TaijiOS grows a body: four senses online, 60 days after day zero"
-date: 2026-04-19 03:00:00 +0800
+date: 2026-04-19 00:30:00 +0800
 tags: [evolution, senses, solo-dev, milestone]
 excerpt: "60 days ago TaijiOS was a hexagram lookup table with a Python shell. Tonight it sees, speaks, paints, and remembers semantically. This is the diary of how an AI operating system grows a body — one sense at a time."
 ---
