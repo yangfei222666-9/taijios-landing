@@ -7,11 +7,11 @@ lang: zh-CN
 ---
 
 <p align="center">
-  <img src="/assets/posts/2026-04-19-four-senses.png" width="520" alt="TaijiOS 四感官的第一夜 · Seedream 4.5 · 孔明剪影 + 四感官觉醒">
+  <img src="/assets/posts/2026-04-18-brand-canon-v15.png" width="400" alt="TaijiOS brand canon v15 · Kongming × bagua × evolving brain">
 </p>
 
 <p align="center">
-  <em>四感官的第一夜 · Seedream 2026-04-19 生</em>
+  <em>视觉定稿 v15 · Seedream 16 稿收敛</em>
 </p>
 
 ---
