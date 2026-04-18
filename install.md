@@ -10,6 +10,20 @@ lang: zh-CN
 
 ---
 
+## ⭐ v2 · 四感官 + 神经系统 (2026-04-19 凌晨上线)
+
+bundle 从"一堆脚本"进化成"有机体":
+
+- 👁️ **眼睛** (`vision.py`) — 看图 · Claude/Doubao/GPT-4o/Kimi 自动切
+- 🔊 **嘴** (`tts.py`) — 说话 · edge-tts 免费 zh-CN-YunjianNeural 男声
+- 🎨 **手** (`imagegen.py`) — 画图 · Doubao Seedream 4.5 · 2048×2048
+- 🧠 **语义记忆** (`embed.py`) — 晶体池 embedding 4096 维 · 不只 hash match
+- ⚡ **brain.py** · Soul × zhuge × 起卦 自动路由 (闲聊/足球/决策自动分流)
+
+[进化日记 + v2 四感官 (60 天) →](/2026/04/19/v2-four-senses-and-60-days/)
+
+---
+
 ## 🚀 最省事 · 下全家桶 zip · 一条命令
 
 想跳过手把手? 下载预打包好的全家桶 (7 repo + 一键启动器, 5.7MB):
