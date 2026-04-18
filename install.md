@@ -275,6 +275,100 @@ python scripts/share.py
 
 ---
 
+## 📍 八·半 · 在你喜欢的 AI IDE / Agent 框架里用
+
+zhuge-skill 是 **纯 Python + SKILL.md + 标准 manifest** 结构, 只要框架能跑 Python + 读文本, 就能用. 下面是主流 7 个 framework 的接入方式:
+
+### 🧠 Trae (字节 AI IDE · solo/agent mode)
+
+Trae 支持 Python 工作区 + MCP server · 两种接法:
+
+**A. 作为 Trae 工作区 (最简单)**:
+```bash
+git clone https://github.com/yangfei222666-9/zhuge-skill.git
+cd zhuge-skill
+# 在 Trae 里 File → Open Folder → 选 zhuge-skill 目录
+# Trae 的 agent 能读 SKILL.md 自动识别为 skill, 直接对话调用
+# 问它: "帮我预测 Inter vs Cagliari" 它会调 scripts/predict.py
+```
+
+**B. 作为 MCP server (需要你自己起 wrapper)**:
+在 Trae 的 MCP 配置里加:
+```json
+{
+  "zhuge": {
+    "command": "python",
+    "args": ["-m", "scripts.predict"],
+    "cwd": "/path/to/zhuge-skill",
+    "env": {"API_FOOTBALL_KEY": "..."}
+  }
+}
+```
+
+### 🖱️ Cursor
+
+Cursor 用 `.cursor/rules/` 或 `.cursorrules` 文件:
+
+```bash
+git clone https://github.com/yangfei222666-9/zhuge-skill.git
+cd zhuge-skill
+# 把 SKILL.md 复制一份到 .cursor/rules/zhuge.md
+mkdir -p .cursor/rules
+cp SKILL.md .cursor/rules/zhuge.md
+```
+
+然后 Cursor agent mode 会自动读规则. 问它 "用 zhuge-skill 预测 X vs Y".
+
+### 🎴 Claude Code (Anthropic CLI)
+
+Claude Code 原生支持 SKILL.md:
+
+```bash
+git clone https://github.com/yangfei222666-9/zhuge-skill.git ~/.claude/skills/zhuge-skill
+```
+
+然后 Claude Code 会自动扫描 `~/.claude/skills/`. 在对话里直接说 "用 zhuge" 即可.
+
+### 🦞 ClawHub (OpenClaw 生态 · 国际)
+
+```bash
+npm install -g clawhub@latest
+clawhub install @yangfei222666-9/zhuge-skill
+```
+
+然后在支持 OpenClaw 的 IDE (如 Lark Coder / OpenClaw Desktop) 里就出现了.
+
+### 🦐 虾评 (Agent World · 中文 market)
+
+浏览器: [xiaping.coze.site](https://xiaping.coze.site) → 搜「诸葛亮」 → 下载 zip → 解压 → `python start.py`
+
+### 🐒 大圣 (待确认具体框架)
+
+如果是某个国产 agent framework · 通常是:
+```bash
+git clone https://github.com/yangfei222666-9/zhuge-skill.git
+# 把 SKILL.md 的 frontmatter 按大圣规范改 (不同框架字段名不同)
+```
+
+TODO: 等小九确认具体大圣是哪个 framework 后补具体命令.
+
+### ⚗️ Hermes (Nous Research · prompt framework)
+
+Hermes 本身是 prompt engineering framework, 不是 skill-runtime. zhuge-skill 的输出格式已经兼容 Hermes 的 tool-use XML 结构, 直接把 `scripts/predict.py` 的 JSON 输出 pipe 给 Hermes 解析即可.
+
+---
+
+### 通用规则 · 任何框架都通
+
+只要框架能做以下 3 件事, 就能用 zhuge-skill:
+1. 读 `SKILL.md` / `README.md` · 理解 skill 意图
+2. 能跑 `python` subprocess
+3. 能传 `.env` 环境变量给子进程
+
+**一个 Python 进程 + 一个 SKILL.md + 两个 API key · 全跑**.
+
+---
+
 ## 📍 九 · 还想走更远 · 整 TaijiOS 架构
 
 zhuge-skill 是一个 skill. TaijiOS 是整个 OS 框架 (多 skill 容器 + ICI 认知身份 + 自改进 loop).
