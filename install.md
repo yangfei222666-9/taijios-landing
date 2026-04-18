@@ -342,16 +342,6 @@ clawhub install @yangfei222666-9/zhuge-skill
 
 浏览器: [xiaping.coze.site](https://xiaping.coze.site) → 搜「诸葛亮」 → 下载 zip → 解压 → `python start.py`
 
-### 🐒 大圣 (待确认具体框架)
-
-如果是某个国产 agent framework · 通常是:
-```bash
-git clone https://github.com/yangfei222666-9/zhuge-skill.git
-# 把 SKILL.md 的 frontmatter 按大圣规范改 (不同框架字段名不同)
-```
-
-TODO: 等小九确认具体大圣是哪个 framework 后补具体命令.
-
 ### ⚗️ Hermes (Nous Research · prompt framework)
 
 Hermes 本身是 prompt engineering framework, 不是 skill-runtime. zhuge-skill 的输出格式已经兼容 Hermes 的 tool-use XML 结构, 直接把 `scripts/predict.py` 的 JSON 输出 pipe 给 Hermes 解析即可.
