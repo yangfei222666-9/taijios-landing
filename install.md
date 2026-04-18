@@ -10,7 +10,39 @@ lang: zh-CN
 
 ---
 
-## 📍 零 · 开始前
+## 🚀 最省事 · 下全家桶 zip · 一条命令
+
+想跳过手把手? 下载预打包好的全家桶 (7 repo + 一键启动器, 5.7MB):
+
+📦 **下载**: [taijios-bundle.zip](https://github.com/yangfei222666-9/taijios-landing/releases/latest) (GitHub Release · 最新版)
+
+解压后:
+
+```bash
+# Windows: 双击 setup.bat
+# Mac/Linux:
+python setup.py
+```
+
+脚本会自动引导你:
+
+- ✓ 装依赖 (zhuge-skill + taijios-soul)
+- ✓ 问一次 DeepSeek key (可跳 · 跳了走 DEMO)
+- ✓ **贴了 key 自动装定时任务** (每天 08:00 自主成长: 夜读 + 回传 + 结晶 + 同步)
+- ✓ 跑一次 heartbeat 验证
+
+装完:
+
+- `python taijios.py` · 菜单 (足球预测 / 灵魂对话 / 同步 / 共享 / ...)
+- 每日自动后台跑, 什么都不用管
+
+**想接 Trae / Cursor / Claude Desktop?** bundle 自带 `mcp_server.py`, `pip install mcp` + 3 行 config 零配置接入.
+
+**想零成本 (不付钱给 LLM)?** 装 Ollama + `ollama pull qwen2.5:7b`, 改 `.env` 3 行, 完全本地跑.
+
+---
+
+## 📍 零 · 开始前 (从零装 · 手把手版)
 
 **你需要准备什么?**
 - 一台能上网的电脑 (Windows / Mac / Linux 都行)
