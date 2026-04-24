@@ -1,41 +1,120 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: 'en' }}">
+<html lang="{{ page.lang | default: 'zh-CN' }}">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ page.title }} · TaijiOS Notes</title>
-  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
-  {% feed_meta %}
-  {% seo %}
-  <style>
-    body { max-width: 720px; margin: 2em auto; padding: 0 1em; font-family: ui-serif, Georgia, serif; line-height: 1.7; color: #222; background: #fdfdf8; }
-    h1 { font-size: 1.9em; margin-bottom: 0.2em; }
-    h2 { border-bottom: 1px solid #ddd; padding-bottom: 0.3em; margin-top: 1.8em; }
-    .meta { color: #666; font-size: 0.9em; margin-bottom: 2em; }
-    code { background: #f0f0ea; padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; }
-    pre { background: #f0f0ea; padding: 1em; overflow-x: auto; border-radius: 4px; }
-    blockquote { border-left: 4px solid #8b7355; padding-left: 1em; color: #555; font-style: italic; }
-    a { color: #8b4513; }
-    .tags { margin-top: 3em; color: #888; font-size: 0.85em; }
-    .footer { margin-top: 4em; padding-top: 1em; border-top: 1px solid #ddd; color: #999; font-size: 0.85em; }
-  </style>
-  {% include analytics.html %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title }} · 太极OS工程日志</title>
+<meta name="description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+{% feed_meta %}
+{% seo %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4efe4;
+  --paper-strong: #fff9eb;
+  --ink: #15110d;
+  --ink-soft: #52483d;
+  --muted: #80766a;
+  --line: rgba(21, 17, 13, 0.15);
+  --charcoal: #13100d;
+  --red: #c73422;
+  --teal: #116f66;
+  --gold: #c4922e;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Space Grotesk", "Noto Sans SC", system-ui, sans-serif;
+  --cn: "Noto Sans SC", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 8%, rgba(199, 52, 34, 0.12), transparent 28rem),
+    radial-gradient(circle at 88% 18%, rgba(17, 111, 102, 0.16), transparent 30rem),
+    linear-gradient(135deg, #f4efe4 0%, #eee4d2 52%, #f9f0dc 100%);
+  font-family: var(--cn);
+  line-height: 1.78;
+}
+a { color: inherit; }
+.shell { width: min(920px, calc(100% - 40px)); margin: 0 auto; }
+.nav { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(244,239,228,.86); backdrop-filter: blur(18px); }
+.nav-inner { width: min(1120px, calc(100% - 40px)); min-height: 72px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 700 18px var(--sans); }
+.mark { width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from 180deg, var(--ink) 0 50%, var(--paper-strong) 0 100%); border: 1px solid var(--ink); box-shadow: 0 0 0 5px rgba(199,52,34,.08); }
+.links { display: flex; gap: 18px; color: var(--ink-soft); font-weight: 700; }
+.links a { text-decoration: none; }
+.links a:hover { color: var(--red); }
+.article-wrap { padding: 92px 0 64px; }
+.eyebrow { display: inline-flex; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.42); color: var(--red); font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+h1 { margin: 24px 0 14px; font: 900 clamp(40px, 6vw, 72px)/1 var(--sans); letter-spacing: -0.055em; }
+.meta { color: var(--muted); font: 700 14px var(--mono); margin-bottom: 22px; }
+.archive-warning { border: 1px solid rgba(199,52,34,.24); border-radius: 24px; padding: 22px; background: rgba(199,52,34,.09); color: var(--ink-soft); margin: 28px 0 34px; }
+.archive-warning strong { color: var(--red); }
+article { padding: 34px; border: 1px solid var(--line); border-radius: 30px; background: rgba(255,255,255,.48); }
+article h2 { margin-top: 2em; padding-top: .3em; font: 900 34px/1.1 var(--sans); letter-spacing: -0.04em; border-top: 1px solid var(--line); }
+article h3 { margin-top: 1.7em; font: 800 25px/1.2 var(--sans); }
+article p, article li { color: var(--ink-soft); }
+article img { max-width: 100%; border-radius: 22px; border: 1px solid var(--line); }
+code { background: rgba(21,17,13,.08); padding: .12em .38em; border-radius: 6px; font-family: var(--mono); font-size: .9em; }
+pre { background: #15110d; color: #fff8e9; padding: 18px; overflow-x: auto; border-radius: 18px; }
+pre code { background: transparent; padding: 0; color: inherit; }
+blockquote { margin: 1.6em 0; padding: 1em 1.2em; border-left: 5px solid var(--red); background: rgba(255,255,255,.42); color: var(--ink-soft); }
+.tags { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 8px; }
+.tags code { font-size: 12px; color: var(--teal); }
+.footer { margin: 56px 0 44px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.footer a { color: var(--ink-soft); }
+@media (max-width: 900px) {
+  .links { display: none; }
+  article { padding: 22px; }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 38px; letter-spacing: -0.045em; }
+  .article-wrap { padding-top: 78px; }
+}
+</style>
+{% include analytics.html %}
 </head>
 <body>
-  <nav><a href="/">← TaijiOS</a> · <a href="/blog.html">All Notes</a> · <a href="/feed.xml">RSS</a></nav>
-  <article>
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/"><span class="mark"></span><span>太极OS</span></a>
+    <div class="links">
+      <a href="/">首页</a>
+      <a href="/about/">关于</a>
+      <a href="/blog.html">工程日志</a>
+      <a href="/pricing/">报价</a>
+      <a href="/crystals/">经验池</a>
+    </div>
+  </div>
+</nav>
+
+<main class="article-wrap">
+  <div class="shell">
+    <span class="eyebrow">Archive · Engineering log</span>
     <h1>{{ page.title }}</h1>
     <div class="meta">
       {{ page.date | date: "%Y-%m-%d" }}
       {% if page.author %}· {{ page.author }}{% endif %}
     </div>
-    {{ content }}
-    {% if page.tags %}
-    <div class="tags">tags: {% for tag in page.tags %}<code>{{ tag }}</code> {% endfor %}</div>
-    {% endif %}
-  </article>
-  <div class="footer">
-    TaijiOS is an AI operating system built on 易经 hexagrams · solo dev 小九 · ask: what's your structure?
+    <div class="archive-warning">
+      <strong>历史记录, 非当前服务承诺。</strong>
+      本文记录太极OS早期工程实验和当时语境, 可能包含旧叙事、样本讨论或已调整的系统表述。当前对外口径以首页、报价页、经验池和开始接入页为准。
+    </div>
+    <article>
+      {{ content }}
+      {% if page.tags %}
+      <div class="tags">
+        {% for tag in page.tags %}<code>{{ tag }}</code>{% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    <div class="footer">
+      <span>太极OS工程日志 · 历史归档</span>
+      <span><a href="/blog.html">返回工程日志</a> · <a href="/pricing/">查看当前服务</a></span>
+    </div>
   </div>
+</main>
 </body>
 </html>

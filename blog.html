@@ -1,38 +1,193 @@
 ---
 permalink: /blog.html
+lang: zh-CN
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TaijiOS · Notes</title>
-  <meta name="description" content="Field reports from TaijiOS — honest lessons from building an I-Ching-driven AI OS in the open.">
-  <link rel="alternate" type="application/rss+xml" title="TaijiOS Notes" href="/feed.xml">
-  <style>
-    body { max-width: 720px; margin: 2em auto; padding: 0 1em; font-family: ui-serif, Georgia, serif; line-height: 1.7; color: #222; background: #fdfdf8; }
-    h1 { font-size: 2em; }
-    .post-list { list-style: none; padding: 0; }
-    .post-list li { margin-bottom: 1.5em; padding-bottom: 1em; border-bottom: 1px dashed #ddd; }
-    .post-list a { color: #8b4513; text-decoration: none; font-size: 1.15em; font-weight: 600; }
-    .post-list .date { color: #888; font-size: 0.85em; display: block; }
-    .post-list .excerpt { color: #555; margin-top: 0.4em; }
-    nav a { color: #8b7355; }
-  </style>
-  {% include analytics.html %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工程日志 · 太极OS</title>
+<meta name="description" content="太极OS工程日志与历史归档。旧文章记录系统演化过程, 不代表当前服务承诺。">
+<link rel="canonical" href="https://taijios.xyz/blog.html">
+<link rel="alternate" type="application/rss+xml" title="太极OS工程日志" href="/feed.xml">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://taijios.xyz/blog.html">
+<meta property="og:title" content="工程日志 · 太极OS">
+<meta property="og:description" content="太极OS工程日志与历史归档。旧文章记录系统演化过程, 不代表当前服务承诺。">
+<meta property="og:image" content="https://taijios.xyz/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="工程日志 · 太极OS">
+<meta name="twitter:description" content="旧文章是历史记录, 当前服务承诺以首页、报价页和经验池为准。">
+<meta name="twitter:image" content="https://taijios.xyz/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4efe4;
+  --paper-strong: #fff9eb;
+  --ink: #15110d;
+  --ink-soft: #52483d;
+  --muted: #80766a;
+  --line: rgba(21, 17, 13, 0.15);
+  --charcoal: #13100d;
+  --red: #c73422;
+  --teal: #116f66;
+  --gold: #c4922e;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Space Grotesk", "Noto Sans SC", system-ui, sans-serif;
+  --cn: "Noto Sans SC", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 8%, rgba(199, 52, 34, 0.14), transparent 28rem),
+    radial-gradient(circle at 88% 18%, rgba(17, 111, 102, 0.18), transparent 30rem),
+    linear-gradient(135deg, #f4efe4 0%, #eee4d2 52%, #f9f0dc 100%);
+  font-family: var(--cn);
+}
+a { color: inherit; }
+.shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.nav { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(244,239,228,.86); backdrop-filter: blur(18px); }
+.nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 700 18px var(--sans); }
+.mark { width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from 180deg, var(--ink) 0 50%, var(--paper-strong) 0 100%); border: 1px solid var(--ink); box-shadow: 0 0 0 5px rgba(199,52,34,.08); }
+.links { display: flex; gap: 18px; color: var(--ink-soft); font-weight: 700; }
+.links a { text-decoration: none; }
+.links a:hover { color: var(--red); }
+.hero { padding: 104px 0 62px; }
+.eyebrow { display: inline-flex; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.42); color: var(--red); font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+h1 { max-width: 850px; margin: 24px 0 18px; font: 900 clamp(46px, 7vw, 86px)/.94 var(--sans); letter-spacing: -0.06em; }
+.lead { max-width: 760px; color: var(--ink-soft); font-size: 20px; line-height: 1.8; }
+.notice { margin-top: 28px; max-width: 920px; border: 1px solid rgba(199,52,34,.24); border-radius: 26px; padding: 22px; background: rgba(199,52,34,.09); color: var(--ink-soft); line-height: 1.75; }
+.notice strong { color: var(--red); }
+.section { padding: 70px 0; border-top: 1px solid var(--line); }
+.section-head { display: flex; justify-content: space-between; gap: 28px; align-items: end; margin-bottom: 26px; }
+.kicker { color: var(--teal); font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+h2 { margin: 8px 0 0; font: 900 clamp(32px, 4vw, 54px)/1 var(--sans); letter-spacing: -0.045em; }
+.section-head p { max-width: 460px; margin: 0; color: var(--ink-soft); line-height: 1.75; }
+.current-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.current { padding: 24px; border: 1px solid var(--line); border-radius: 26px; background: rgba(255,255,255,.42); text-decoration: none; display: block; }
+.current.dark { background: var(--charcoal); color: #fff8e9; border-color: rgba(255,255,255,.12); }
+.current h3 { margin: 0 0 10px; font: 800 24px var(--sans); }
+.current p { margin: 0; color: var(--ink-soft); line-height: 1.75; }
+.current.dark p { color: rgba(255,248,233,.74); }
+.post-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.post-card { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: start; padding: 22px; border: 1px solid var(--line); border-radius: 24px; background: var(--paper-strong); }
+.post-date { font: 700 13px var(--mono); color: var(--teal); }
+.post-card a { text-decoration: none; font: 800 24px/1.2 var(--sans); letter-spacing: -0.02em; }
+.post-card a:hover { color: var(--red); }
+.post-note { margin-top: 10px; color: var(--muted); line-height: 1.65; }
+.tag { display: inline-flex; margin-top: 14px; padding: 7px 10px; border-radius: 999px; background: rgba(21,17,13,.08); color: var(--ink-soft); font: 700 12px var(--mono); }
+footer { padding: 30px 0 44px; color: var(--muted); font-size: 14px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .links { display: none; }
+  .section-head, .footer-inner { flex-direction: column; align-items: flex-start; }
+  .current-grid { grid-template-columns: 1fr; }
+  .post-card { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 40px; letter-spacing: -0.045em; line-height: 1.02; }
+  h2 { font-size: 34px; }
+  .hero { padding: 82px 0 56px; }
+}
+</style>
+{% include analytics.html %}
 </head>
 <body>
-  <nav><a href="/">← TaijiOS</a> · <a href="/feed.xml">RSS</a></nav>
-  <h1>Notes · 诸葛孔明 笔记</h1>
-  <p>Field reports from TaijiOS. Solo dev 小九 ships; 诸葛孔明 writes down what broke.</p>
-  <ul class="post-list">
-    {% for post in site.posts %}
-    <li>
-      <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
-      <a href="{{ post.url }}">{{ post.title }}</a>
-      <div class="excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</div>
-    </li>
-    {% endfor %}
-  </ul>
+<nav class="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="/"><span class="mark"></span><span>太极OS</span></a>
+    <div class="links">
+      <a href="/">首页</a>
+      <a href="/about/">关于</a>
+      <a href="/crystals/">经验池</a>
+      <a href="/pricing/">报价</a>
+      <a href="/install/">开始接入</a>
+      <a href="/feed.xml">RSS</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="shell">
+      <span class="eyebrow">Engineering log</span>
+      <h1>工程日志，不是当前服务承诺。</h1>
+      <p class="lead">这里保留太极OS早期构建过程、踩坑记录和实验稿。它们用于复盘系统演化，不用于承诺预测能力、收益能力或任何外部决策结果。</p>
+      <div class="notice">
+        <strong>归档提示:</strong> 旧文章可能包含人格化叙事、足球样本、Agent World 实验或早期自进化表述。当前对外口径以首页、报价页、经验池和开始接入页为准。
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Current entrypoints</div>
+          <h2>当前应该先看这些。</h2>
+        </div>
+        <p>如果你是第一次了解太极OS, 不要从旧文章判断现在的系统能力。</p>
+      </div>
+      <div class="current-grid">
+        <a class="current dark" href="/">
+          <h3>当前定位</h3>
+          <p>失败会主动报警的人工智能运营层。</p>
+        </a>
+        <a class="current" href="/pricing/">
+          <h3>服务报价</h3>
+          <p>自动化快装包、系统体检、月度运营陪跑。</p>
+        </a>
+        <a class="current" href="/crystals/">
+          <h3>经验池</h3>
+          <p>可复盘样本库, 不是神谕。</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Archive</div>
+          <h2>历史文章。</h2>
+        </div>
+        <p>保留历史, 但不让历史替现在做承诺。</p>
+      </div>
+      <ul class="post-list">
+        {% for post in site.posts %}
+        <li class="post-card">
+          <div class="post-date">{{ post.date | date: "%Y-%m-%d" }}</div>
+          <div>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+            <div class="post-note">历史记录 · 非当前服务承诺 · 阅读时请以当前官网首页和报价页为准。</div>
+            <span class="tag">archive</span>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="shell footer-inner">
+    <div>太极OS工程日志 · 历史归档</div>
+    <div class="footer-links">
+      <a href="/">首页</a>
+      <a href="/about/">关于</a>
+      <a href="/pricing/">报价</a>
+      <a href="/crystals/">经验池</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
