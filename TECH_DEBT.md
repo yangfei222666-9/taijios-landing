@@ -8,7 +8,7 @@
 
 - `blog.html` 已改为「工程日志 · 历史归档」。
 - `_layouts/post.html` 已加「历史记录, 非当前服务承诺」提示。
-- `about.md`、`install.md`、`pricing.md`、`crystals.html`、`og.png` 已统一到当前定位。
+- `about.md`、`install.html`、`pricing.html`、`crystals.html`、`og.png` 已统一到当前定位。
 
 ## P1 · 会造成后续漂移
 
