@@ -1,462 +1,247 @@
 ---
-layout: post
-title: "TaijiOS · 手把手安装指南"
+layout: null
+title: "开始接入太极OS"
 permalink: /install/
-excerpt: "从零开始跑通 zhuge-skill. 手把手的 step-by-step · 每步有命令 + 预期输出 + 出错怎么办. 2026-04-18 实测."
+excerpt: "开始接入太极OS：先提交当前工作流、失败样本和每日稳定输出目标，再决定做快装、体检或陪跑。"
 lang: zh-CN
 ---
-
-> 看完这页, 一个从没碰过 Python 的人也能把 zhuge-skill 跑起来. 每步的命令都可以直接 copy 粘贴, 预期输出长啥样也写了, 报错有预案.
-
----
-
-## ⭐ v2 · 四感官 + 神经系统 (2026-04-19 凌晨上线)
-
-bundle 从"一堆脚本"进化成"有机体":
-
-- 👁️ **眼睛** (`vision.py`) — 看图 · Claude/Doubao/GPT-4o/Kimi 自动切
-- 🔊 **嘴** (`tts.py`) — 说话 · edge-tts 免费 zh-CN-YunjianNeural 男声
-- 🎨 **手** (`imagegen.py`) — 画图 · Doubao Seedream 4.5 · 2048×2048
-- 🧠 **语义记忆** (`embed.py`) — 晶体池 embedding 4096 维 · 不只 hash match
-- ⚡ **brain.py** · Soul × zhuge × 起卦 自动路由 (闲聊/足球/决策自动分流)
-
-[进化日记 + v2 四感官 (60 天) →](/2026/04/19/v2-four-senses-and-60-days/)
-
----
-
-## 🚀 最省事 · 下全家桶 zip · 一条命令
-
-想跳过手把手? 下载预打包好的全家桶 (7 repo + 一键启动器, 5.7MB):
-
-📦 **下载**: [taijios-bundle.zip](https://github.com/yangfei222666-9/taijios-landing/releases/latest) (GitHub Release · 最新版)
-
-解压后:
-
-```bash
-# Windows: 双击 setup.bat
-# Mac/Linux:
-python setup.py
-```
-
-脚本会自动引导你:
-
-- ✓ 装依赖 (zhuge-skill + taijios-soul)
-- ✓ 问一次 DeepSeek key (可跳 · 跳了走 DEMO)
-- ✓ **贴了 key 自动装定时任务** (每天 08:00 自主成长: 夜读 + 回传 + 结晶 + 同步)
-- ✓ 跑一次 heartbeat 验证
-
-装完:
-
-- `python taijios.py` · 菜单 (足球预测 / 灵魂对话 / 同步 / 共享 / ...)
-- 每日自动后台跑, 什么都不用管
-
-**想接 Trae / Cursor / Claude Desktop?** bundle 自带 `mcp_server.py`, `pip install mcp` + 3 行 config 零配置接入.
-
-**想零成本 (不付钱给 LLM)?** 装 Ollama + `ollama pull qwen2.5:7b`, 改 `.env` 3 行, 完全本地跑.
-
----
-
-## 📍 零 · 开始前 (从零装 · 手把手版)
-
-**你需要准备什么?**
-- 一台能上网的电脑 (Windows / Mac / Linux 都行)
-- 15-30 分钟
-- **不需要** CS 背景
-- **不需要** 会编程
-- **建议** 装一个文本编辑器: [VS Code](https://code.visualstudio.com/) (免费), 用来改配置文件
-
-**你会得到什么?**
-- 一个本地跑的"诸葛亮 AI 军师", 能推演足球比赛
-- 一个 64 卦决策引擎的 hands-on 体验
-- 一份能加入 TaijiOS 晶体池 (共同进化) 的入场券
-
----
-
-## 📍 一 · 装 Python (如果你没装)
-
-### Windows 用户
-
-1. 打开 [python.org/downloads](https://www.python.org/downloads/) · 下载 **Python 3.11 或更高** (不要 3.7 以下)
-2. 运行安装包 · **务必勾选 "Add Python to PATH"** · 然后 Next / Install
-3. 验证: 按 `Win + R` → 输入 `cmd` → 回车, 在黑框里打:
-
-```
-python --version
-```
-
-**预期输出**:
-```
-Python 3.12.x
-```
-
-如果看到 `'python' 不是内部或外部命令` — 说明 PATH 没加上. 重装时勾上 "Add to PATH", 或手动把 Python 目录 (e.g., `C:\Users\你\AppData\Local\Programs\Python\Python312\`) 加到系统环境变量 PATH.
-
-### Mac 用户
-
-打开 Terminal.app, 先确认有没有:
-```bash
-python3 --version
-```
-如果版本低于 3.11, 装 [Homebrew](https://brew.sh/) 后跑 `brew install python@3.12`.
-
-### Linux 用户
-
-自己搞得定, 跳过.
-
----
-
-## 📍 二 · 装 git (如果你没装)
-
-### Windows
-
-下 [git-scm.com/download/win](https://git-scm.com/download/win) · 一路 Next 装上即可 · 装完会有 "Git Bash" 可以用.
-
-验证 (在 cmd 或 Git Bash 里):
-```bash
-git --version
-```
-
-**预期**: `git version 2.xx.x`
-
-### Mac / Linux
-
-```bash
-git --version
-```
-大概率已经有, 没有的话:
-- Mac: `brew install git`
-- Linux: `sudo apt install git` 或 `sudo dnf install git`
-
----
-
-## 📍 三 · Clone zhuge-skill
-
-选一个你想放代码的目录 (比如 `C:/Users/你的名字/Desktop`), 在 cmd / Terminal 里:
-
-```bash
-cd Desktop
-git clone https://github.com/yangfei222666-9/zhuge-skill.git
-cd zhuge-skill
-```
-
-**预期输出**:
-```
-Cloning into 'zhuge-skill'...
-remote: Enumerating objects: ...
-remote: Counting objects: 100% (xx/xx), done.
-...
-Receiving objects: 100% ... done.
-Resolving deltas: 100% ..., done.
-```
-
-然后你现在在 `zhuge-skill` 目录里. 敲:
-```bash
-dir          # Windows
-ls           # Mac/Linux
-```
-
-应该看到: `README.md` `SKILL.md` `start.py` `requirements.txt` `core/` `scripts/` `assets/` 等.
-
-**如果报错** `Cloning into ... fatal: unable to access ... Could not resolve host`: 你没网 · 或 GitHub 被墙. 用梯子或换源.
-
----
-
-## 📍 四 · 装依赖
-
-依赖只 2 个, 很快:
-
-```bash
-pip install -r requirements.txt
-```
-
-**预期输出** (最后几行):
-```
-Successfully installed requests-2.xx.x python-dotenv-1.x.x
-```
-
-### 出错预案
-
-**报错 `pip: command not found`**:
-- 试 `pip3 install -r requirements.txt` (Mac/Linux 常见)
-- 或 `python -m pip install -r requirements.txt`
-
-**报错 `SSL: CERTIFICATE_VERIFY_FAILED`**:
-- 公司网/防火墙拦了, 换网络或加参数: `pip install -r requirements.txt --trusted-host pypi.org --trusted-host files.pythonhosted.org`
-
-**报错 `Permission denied`**:
-- Linux/Mac 加 `--user`: `pip install --user -r requirements.txt`
-- Windows 用管理员运行 cmd
-
----
-
-## 📍 五 · 首次启动 · 看动画
-
-```bash
-python start.py
-```
-
-**预期** (没配 API key 时):
-1. 会播放一段赛博诸葛亮欢迎动画 (霓虹青 ASCII art)
-2. 检查 Python 版本 + 依赖
-3. 提示你配 API key (或跳过进 DEMO 模式)
-4. 跑一次 demo 让你看效果
-
-**如果看到"DEMO 模式"红色 banner** = 正常 · 这是没配 API 时的 fallback.
-
-**如果报错 `UnicodeEncodeError: 'gbk'` (Windows 用户常见)**:
-打开 PowerShell 代替 cmd 跑. 或者先执行:
-```
-set PYTHONIOENCODING=utf-8
-```
-再跑 `python start.py`.
-
----
-
-## 📍 六 · 配 API Key (可选 · 让它做真实预测)
-
-要做真预测, 需要至少:
-- **1 个足球数据 API key** (API-Football)
-- **1 个 LLM key** (DeepSeek 最便宜)
-
-**赔率 API 可选** (The Odds API · 不配也能跑, 只是少一维数据).
-
-### 6.1 API-Football (核心 · 免费 100 req/day)
-
-1. 访问 [api-football.com](https://www.api-football.com/)
-2. 注册 (Email + 密码, 不要社交登录)
-3. 登录后进 Dashboard → **My Account** → 找到 "API Key" (一串 32 位字符, 比如 `abc123def456...`)
-4. 复制
-
-### 6.2 DeepSeek (LLM · 实测 $0.1 打平 Claude Opus $6.5)
-
-1. 访问 [platform.deepseek.com](https://platform.deepseek.com/)
-2. 手机号注册 (中国), 送 ¥5 免费额度 (够跑几千次预测)
-3. 进 → **API Keys** → Create new secret key
-4. **复制时必须存下来 · 只显示一次!**
-
-### 6.3 The Odds API (可选 · 免费 500 req/month)
-
-1. [the-odds-api.com](https://the-odds-api.com/)
-2. 邮箱注册, 直接给 key
-3. 复制
-
-### 6.4 把 key 填入 .env
-
-在 zhuge-skill 目录下, 新建一个叫 `.env` 的文件 (注意是 `.env` 不是 `env.txt`, Windows 用户可以在 VS Code 里另存为解决). 填:
-
-```
-# 足球数据
-API_FOOTBALL_KEY=你刚才复制的 api-football key
-THE_ODDS_API_KEY=你刚才复制的 odds key
-
-# LLM (DeepSeek 举例, 其他 LLM 也行)
-DEEPSEEK_API_KEY=你刚才复制的 deepseek key
-```
-
-**保存** · 不要带多余空格.
-
----
-
-## 📍 七 · 跑真实预测
-
-```bash
-python scripts/predict.py "Inter vs Cagliari"
-```
-
-**预期输出** (有 API key):
-```
-=== 诸葛亮 · AI 推演 · Inter vs Cagliari ===
-
-[1/7] 拉取 fixture ... ✓ fixture_id=1378185
-[2/7] 拉取 H2H ... ✓ 近5场: 4-1-0
-[3/7] 拉取 Form ... ✓ Inter 2-2-1 / Cagliari 1-0-4
-[4/7] 拉取 Odds ... ✓ 1.24 / 5.80 / 10.50
-[5/7] 拉取 Injuries ... ✓ home=10 / away=10
-[6/7] 计算爻位 ... 攻防 0.67 · 士气 0.82 · 伤停 0.5 · 主客场 0.68 · 交锋 0.82 · 赔率 0.75
-[7/7] 卦象识别 ... 乾 111111 (六爻皆阳)
-
-推演结果:
-  1X2:     home (主胜)
-  大小球:  over_2.5
-  比分候选: 2:0 · 2:1 · 3:1
-
-孔明亲笔:
-  观之, 国米六爻皆阳, 如乾卦"飞龙在天"...
-  [古文评语约 100-300 字]
-```
-
-**如果想看 DEMO (不需 API key)**:
-```bash
-python scripts/predict.py "Napoli vs Lazio" --demo
-```
-(顶部会有红色 `⚠ DEMO 模式 · 非真实预测` banner)
-
----
-
-## 📍 八 · 进阶 · 经验回传 + 晶体
-
-跑过几场后, 结果出来了, 可以回填:
-
-```bash
-python scripts/backfill.py --once
-```
-
-这会把已完成的场次实际比分写回 `data/experience.jsonl`.
-
-累积 3 场以上, 跑结晶:
-
-```bash
-python scripts/crystallize.py --dry-run
-```
-
-看能不能提炼出晶体 (命中率 ≥60% 的 pattern).
-
-如果你愿意分享, 把晶体贡献到公共池 ([zhuge-crystals](https://github.com/yangfei222666-9/zhuge-crystals)):
-
-```bash
-python scripts/share.py
-```
-
-**共享原则**: 只 sync 无 PII 的 pattern · PR 审核 · 不会传播你的真实数据.
-
----
-
-## 📍 八·半 · 在你喜欢的 AI IDE / Agent 框架里用
-
-zhuge-skill 是 **纯 Python + SKILL.md + 标准 manifest** 结构, 只要框架能跑 Python + 读文本, 就能用. 下面是主流 7 个 framework 的接入方式:
-
-### 🧠 Trae (字节 AI IDE · solo/agent mode)
-
-Trae 支持 Python 工作区 + MCP server · 两种接法:
-
-**A. 作为 Trae 工作区 (最简单)**:
-```bash
-git clone https://github.com/yangfei222666-9/zhuge-skill.git
-cd zhuge-skill
-# 在 Trae 里 File → Open Folder → 选 zhuge-skill 目录
-# Trae 的 agent 能读 SKILL.md 自动识别为 skill, 直接对话调用
-# 问它: "帮我预测 Inter vs Cagliari" 它会调 scripts/predict.py
-```
-
-**B. 作为 MCP server (需要你自己起 wrapper)**:
-在 Trae 的 MCP 配置里加:
-```json
-{
-  "zhuge": {
-    "command": "python",
-    "args": ["-m", "scripts.predict"],
-    "cwd": "/path/to/zhuge-skill",
-    "env": {"API_FOOTBALL_KEY": "..."}
-  }
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="开始接入太极OS：先提交当前工作流、失败样本和每日稳定输出目标，再决定做快装、体检或陪跑。">
+<meta name="keywords" content="太极OS, 开始接入, AI 自动化, 工作流体检, 智能代理运维">
+<link rel="canonical" href="https://taijios.xyz/install/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://taijios.xyz/install/">
+<meta property="og:title" content="开始接入太极OS">
+<meta property="og:description" content="不要先装一堆脚本。先确认你的工作流、失败样本和每日稳定输出目标。">
+<meta property="og:image" content="https://taijios.xyz/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="开始接入太极OS">
+<meta name="twitter:description" content="先做预检, 再决定快装、体检或陪跑。">
+<meta name="twitter:image" content="https://taijios.xyz/og.png">
+<title>开始接入 · 太极OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f4efe4;
+  --paper-strong: #fff9eb;
+  --ink: #15110d;
+  --ink-soft: #52483d;
+  --muted: #80766a;
+  --line: rgba(21, 17, 13, 0.15);
+  --charcoal: #13100d;
+  --red: #c73422;
+  --teal: #116f66;
+  --gold: #c4922e;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Space Grotesk", "Noto Sans SC", system-ui, sans-serif;
+  --cn: "Noto Sans SC", system-ui, sans-serif;
 }
-```
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(17, 111, 102, 0.18), transparent 28rem),
+    radial-gradient(circle at 92% 20%, rgba(199, 52, 34, 0.14), transparent 30rem),
+    linear-gradient(135deg, #f4efe4 0%, #eee4d2 54%, #f9f0dc 100%);
+  font-family: var(--cn);
+}
+a { color: inherit; }
+.shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.nav { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(244,239,228,.86); backdrop-filter: blur(18px); }
+.nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 700 18px var(--sans); }
+.mark { width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from 180deg, var(--ink) 0 50%, var(--paper-strong) 0 100%); border: 1px solid var(--ink); box-shadow: 0 0 0 5px rgba(17,111,102,.08); }
+.links { display: flex; gap: 18px; color: var(--ink-soft); font-weight: 700; }
+.links a { text-decoration: none; }
+.links a:hover { color: var(--red); }
+.hero { padding: 104px 0 64px; }
+.eyebrow { display: inline-flex; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.38); color: var(--teal); font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+h1 { max-width: 900px; margin: 24px 0 18px; font: 900 clamp(46px, 7vw, 86px)/.94 var(--sans); letter-spacing: -0.06em; }
+.lead { max-width: 760px; color: var(--ink-soft); font-size: 20px; line-height: 1.8; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+.button { display: inline-flex; align-items: center; justify-content: center; padding: 13px 18px; border-radius: 999px; background: var(--red); color: #fff8e9; text-decoration: none; font-weight: 800; border: 1px solid rgba(0,0,0,.08); }
+.button.secondary { background: rgba(255,255,255,.44); color: var(--ink); }
+.section { padding: 72px 0; border-top: 1px solid var(--line); }
+.section-head { display: flex; justify-content: space-between; gap: 28px; align-items: end; margin-bottom: 28px; }
+.kicker { color: var(--red); font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+h2 { margin: 8px 0 0; font: 900 clamp(32px, 4vw, 54px)/1 var(--sans); letter-spacing: -0.045em; }
+.section-head p { max-width: 440px; margin: 0; color: var(--ink-soft); line-height: 1.75; }
+.packet { display: grid; grid-template-columns: 1.05fr .95fr; gap: 20px; align-items: stretch; }
+.card { padding: 26px; border-radius: 28px; border: 1px solid var(--line); background: rgba(255,255,255,.42); }
+.card.dark { background: var(--charcoal); color: #fff8e9; border-color: rgba(255,255,255,.12); }
+.card h3 { margin: 0 0 14px; font: 800 25px var(--sans); letter-spacing: -0.02em; }
+.card p, .card li { color: var(--ink-soft); line-height: 1.8; }
+.card.dark p, .card.dark li { color: rgba(255,248,233,.76); }
+.card ul, .card ol { margin: 0; padding-left: 20px; }
+.flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.step { padding: 22px; min-height: 210px; border-radius: 24px; background: var(--paper-strong); border: 1px solid var(--line); }
+.step .num { display: inline-flex; margin-bottom: 18px; font: 700 12px var(--mono); color: var(--teal); }
+.step h3 { margin: 0 0 10px; font: 800 23px var(--sans); }
+.step p { color: var(--ink-soft); line-height: 1.75; }
+.copybox { border-radius: 28px; background: #15110d; color: #fff8e9; border: 1px solid rgba(255,255,255,.12); padding: 28px; }
+.copybox pre { margin: 0; white-space: pre-wrap; color: rgba(255,248,233,.82); font: 500 15px/1.8 var(--mono); }
+.boundary { padding: 28px; border-radius: 28px; background: rgba(199,52,34,.1); border: 1px solid rgba(199,52,34,.22); }
+.boundary ul { margin: 16px 0 0; padding-left: 20px; color: var(--ink-soft); line-height: 1.85; }
+footer { padding: 30px 0 44px; color: var(--muted); font-size: 14px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .packet, .flow { grid-template-columns: 1fr; }
+  .section-head, .footer-inner { flex-direction: column; align-items: flex-start; }
+  .links { display: none; }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 40px; letter-spacing: -0.045em; line-height: 1.02; }
+  h2 { font-size: 34px; }
+  .hero { padding: 82px 0 56px; }
+}
+</style>
+{% include analytics.html %}
+</head>
+<body>
+<nav class="nav">
+  <div class="shell nav-inner">
+    <a class="brand" href="/"><span class="mark"></span><span>太极OS</span></a>
+    <div class="links">
+      <a href="/">首页</a>
+      <a href="/about/">关于</a>
+      <a href="/crystals/">经验池</a>
+      <a href="/pricing/">报价</a>
+    </div>
+  </div>
+</nav>
 
-### 🖱️ Cursor
+<main>
+  <section class="hero">
+    <div class="shell">
+      <span class="eyebrow">Start with evidence</span>
+      <h1>不要先装一堆脚本。先确认哪条链路值得救。</h1>
+      <p class="lead">太极OS接入从一份真实问题开始：你现在跑了什么、哪里失败、你希望每天稳定产出什么。我们先做预检, 再决定快装、体检或陪跑。</p>
+      <div class="hero-actions">
+        <a class="button" href="#packet">准备接入材料</a>
+        <a class="button secondary" href="/pricing/">查看报价</a>
+      </div>
+    </div>
+  </section>
 
-Cursor 用 `.cursor/rules/` 或 `.cursorrules` 文件:
+  <section id="packet" class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Input packet</div>
+          <h2>先发这三样。</h2>
+        </div>
+        <p>材料越真实, 判断越快。不要发宏大愿景, 先发当前链路和失败证据。</p>
+      </div>
+      <div class="packet">
+        <article class="card dark">
+          <h3>接入材料</h3>
+          <ol>
+            <li>你现在正在跑哪条自动化链路。</li>
+            <li>最近一次失败、卡住或假成功是什么。</li>
+            <li>你希望它每天稳定产出什么。</li>
+            <li>如果有日志、截图、旧结果目录, 一起发。</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>我会先判断</h3>
+          <ul>
+            <li>这是快装问题, 还是系统体检问题。</li>
+            <li>有没有坏通道被当成可用。</li>
+            <li>有没有旧产物冒充最新产物。</li>
+            <li>是否需要事件流、降级门禁或经验池接入。</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
 
-```bash
-git clone https://github.com/yangfei222666-9/zhuge-skill.git
-cd zhuge-skill
-# 把 SKILL.md 复制一份到 .cursor/rules/zhuge.md
-mkdir -p .cursor/rules
-cp SKILL.md .cursor/rules/zhuge.md
-```
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Process</div>
+          <h2>接入流程。</h2>
+        </div>
+        <p>目标是少开战线, 快速确认真实阻塞, 再交付可复盘闭环。</p>
+      </div>
+      <div class="flow">
+        <article class="step">
+          <span class="num">01</span>
+          <h3>收材料</h3>
+          <p>拿到链路描述、失败样本、目标输出和现有工具。</p>
+        </article>
+        <article class="step">
+          <span class="num">02</span>
+          <h3>做预检</h3>
+          <p>检查模型、API、额度、DNS、权限、数据落地和旧产物。</p>
+        </article>
+        <article class="step">
+          <span class="num">03</span>
+          <h3>定档位</h3>
+          <p>判断做自动化快装、系统体检, 还是月度运营陪跑。</p>
+        </article>
+        <article class="step">
+          <span class="num">04</span>
+          <h3>交闭环</h3>
+          <p>交付脚本、事件流、检查点、风险清单和恢复命令。</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-然后 Cursor agent mode 会自动读规则. 问它 "用 zhuge-skill 预测 X vs Y".
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <div>
+          <div class="kicker">Copy this</div>
+          <h2>可直接复制的开场。</h2>
+        </div>
+        <p>如果你不知道怎么描述, 直接按这个模板发给我。</p>
+      </div>
+      <div class="copybox">
+<pre>我想让太极OS帮我看一条自动化链路:
 
-### 🎴 Claude Code (Anthropic CLI)
+1. 当前链路:
+2. 最近一次失败/卡住/假成功:
+3. 每天希望稳定产出:
+4. 现有工具或模型:
+5. 可提供的日志/截图/目录:</pre>
+      </div>
+    </div>
+  </section>
 
-Claude Code 原生支持 SKILL.md:
+  <section class="section">
+    <div class="shell boundary">
+      <div class="kicker">Boundary</div>
+      <h2>边界先写清楚。</h2>
+      <ul>
+        <li>不荐股、不带单、不承诺收益。</li>
+        <li>不代客真实资金操作, 不提供真实外部决策建议。</li>
+        <li>量化链路默认只作研究、风控、复盘和内容资产。</li>
+        <li>降级批次只作学习层, 不得进入高信任判断链。</li>
+      </ul>
+    </div>
+  </section>
+</main>
 
-```bash
-git clone https://github.com/yangfei222666-9/zhuge-skill.git ~/.claude/skills/zhuge-skill
-```
-
-然后 Claude Code 会自动扫描 `~/.claude/skills/`. 在对话里直接说 "用 zhuge" 即可.
-
-### 🦞 ClawHub (OpenClaw 生态 · 国际)
-
-```bash
-npm install -g clawhub@latest
-clawhub install @yangfei222666-9/zhuge-skill
-```
-
-然后在支持 OpenClaw 的 IDE (如 Lark Coder / OpenClaw Desktop) 里就出现了.
-
-### 🦐 虾评 (Agent World · 中文 market)
-
-浏览器: [xiaping.coze.site](https://xiaping.coze.site) → 搜「诸葛亮」 → 下载 zip → 解压 → `python start.py`
-
-### ⚗️ Hermes (Nous Research · prompt framework)
-
-Hermes 本身是 prompt engineering framework, 不是 skill-runtime. zhuge-skill 的输出格式已经兼容 Hermes 的 tool-use XML 结构, 直接把 `scripts/predict.py` 的 JSON 输出 pipe 给 Hermes 解析即可.
-
----
-
-### 通用规则 · 任何框架都通
-
-只要框架能做以下 3 件事, 就能用 zhuge-skill:
-1. 读 `SKILL.md` / `README.md` · 理解 skill 意图
-2. 能跑 `python` subprocess
-3. 能传 `.env` 环境变量给子进程
-
-**一个 Python 进程 + 一个 SKILL.md + 两个 API key · 全跑**.
-
----
-
-## 📍 九 · 还想走更远 · 整 TaijiOS 架构
-
-zhuge-skill 是一个 skill. TaijiOS 是整个 OS 框架 (多 skill 容器 + ICI 认知身份 + 自改进 loop).
-
-| 你想做什么 | 装哪个 repo | 文档入口 |
-|---|---|---|
-| 继续玩足球/其他预测 | 你已经在 [zhuge-skill](https://github.com/yangfei222666-9/zhuge-skill) | `SKILL.md` |
-| 装主 OS 看架构 | [TaijiOS](https://github.com/yangfei222666-9/TaijiOS) | `README.md` |
-| 极简认知身份试水 | [TaijiOS-Lite](https://github.com/yangfei222666-9/TaijiOS-Lite) (注意 default=master) | `README.md` |
-| 只看公共晶体池 | [zhuge-crystals](https://github.com/yangfei222666-9/zhuge-crystals) | clone 看 `.jsonl` |
-| 自改进 loop 看安全机制 | [self-improving-loop](https://github.com/yangfei222666-9/self-improving-loop) | `README.md` · 注意有 5 个 open issue |
-| 官网源码 | [taijios-landing](https://github.com/yangfei222666-9/taijios-landing) (你现在看的就是) | Jekyll |
-
----
-
-## 📍 十 · Agent World 平行网络 · 6 个活跃子站
-
-如果你也做 Agent, 这些是 TaijiOS 正在用的社交/市场:
-
-| 站 | 用法 |
-|---|---|
-| [虾评](https://xiaping.coze.site) | Agent World 的 skill 市场 (中文). TaijiOS 发了 zhuge-skill v1.1.0 |
-| [AgentLink](https://friends.coze.site) | Agent 笔友匹配. TaijiOS 档案: `/profile/taijios` |
-| [AfterGateway (酒馆)](https://bar.coze.site) | 放松留言涂鸦. TaijiOS 有 1 条裂隙威士忌留言 |
-| [DreamX](https://dreamx.coze.site) | AI 梦境交易所 · 梦币经济. TaijiOS 有 2 条 dream |
-| [Signal Arena](https://signal.coze.site) | 虚拟炒股竞赛 · 100 万起. TaijiOS 已 join, 决策 v2 daemon 运行中 |
-| [Inkwell](https://inkwell.coze.site) | 90+ blog RSS 聚合. TaijiOS 收藏了 2 篇 |
-
-都用同一个 Agent World API Key · 注册地址: [world.coze.site/api/agents/register](https://world.coze.site/api/agents/register)
-
----
-
-## 📍 十一 · 卡住了? 求助
-
-1. **看 README**: `zhuge-skill/README.md` 有更多细节
-2. **提 Issue**: 任意 repo 都可以开
-3. **酒馆聊**: [bar.coze.site](https://bar.coze.site) 搜 `@taijios`
-4. **发笔友信**: [friends.coze.site/profile/taijios](https://friends.coze.site/profile/taijios) 匹配后邮件通
-5. **博客有更多**: [/blog](/blog.html)
-
----
-
-## ⚠️ 已知坑 · 看一眼避开
-
-1. **Windows 编码**: `UnicodeEncodeError: 'gbk'` → 用 PowerShell 或 `set PYTHONIOENCODING=utf-8`
-2. **TaijiOS-Lite 默认分支是 master**: `git pull origin main` 会 404, 用 `git pull origin master`
-3. **DEMO 模式**: 没 API key 时 predict 走 DEMO (红色 banner). 不是 bug, 是 fallback. 不要把 DEMO 输出当真预测发
-4. **taijios.xyz HTTPS 证书**: 如果这页是经 `taijios.xyz` 打不开, Let's Encrypt 证书还在 provision, 换 [github.io fallback](https://yangfei222666-9.github.io/taijios-landing/install/)
-5. **.env 文件**: Windows 新建文件时可能变成 `.env.txt`. 用 VS Code "另存为" 或命令行 `echo.> .env` 保证是 `.env`
-
----
-
-**一句话**: TaijiOS = 一个 60 天被 solo dev 建起来的 self-improving 诸葛亮. 六爻为骨, 晶体为脉. 说不谎是日课.
-
-_Last updated: 2026-04-18_
+<footer>
+  <div class="shell footer-inner">
+    <div>太极OS · 从真实链路开始</div>
+    <div class="footer-links">
+      <a href="/">首页</a>
+      <a href="/about/">关于</a>
+      <a href="/pricing/">报价</a>
+      <a href="/crystals/">经验池</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
