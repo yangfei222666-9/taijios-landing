@@ -6,21 +6,21 @@ permalink: /
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="TaijiOS 是面向 AI Agent 工作流的可靠性运营层：预检、事件流、degraded 模式、复盘与晋升，防止 silent failure 被包装成成功。">
-<meta name="keywords" content="TaijiOS, AI Agent, silent failure, workflow reliability, event stream, degraded mode, AI operations">
-<meta name="author" content="TaijiOS">
+<meta name="description" content="太极OS是面向智能代理工作流的可靠性运营层：预检、事件流、降级模式、复盘与晋升，防止静默失败被包装成成功。">
+<meta name="keywords" content="太极OS, TaijiOS, 智能代理, 静默失败, 工作流可靠性, 事件流, 降级模式, 人工智能运营">
+<meta name="author" content="太极OS">
 <link rel="canonical" href="https://taijios.xyz/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://taijios.xyz/">
-<meta property="og:title" content="TaijiOS · AI ops that fails loudly">
-<meta property="og:description" content="给 AI Agent 工作流加一层真实运营系统：先预检，再执行；失败 loud 报；degraded 不进判断链；所有关键动作留下事件流。">
+<meta property="og:title" content="太极OS · 失败会主动报警的人工智能运营层">
+<meta property="og:description" content="给智能代理工作流加一层真实运营系统：先预检，再执行；失败主动报警；降级批次不进判断链；所有关键动作留下事件流。">
 <meta property="og:image" content="https://taijios.xyz/og.png">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TaijiOS · AI ops that fails loudly">
-<meta name="twitter:description" content="预检、事件流、degraded 模式、复盘与晋升。防止 AI 工作流 silent failure。">
+<meta name="twitter:title" content="太极OS · 失败会主动报警的人工智能运营层">
+<meta name="twitter:description" content="预检、事件流、降级模式、复盘与晋升。防止人工智能工作流静默失败。">
 <meta name="twitter:image" content="https://taijios.xyz/og.png">
-<title>TaijiOS · AI ops that fails loudly</title>
+<title>太极OS · 失败会主动报警的人工智能运营层</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -850,7 +850,7 @@ footer {
   }
 
   h1 {
-    font-size: clamp(48px, 17vw, 72px);
+    font-size: clamp(40px, 13.5vw, 64px);
   }
 
   .console,
@@ -887,23 +887,23 @@ footer {
 <body>
 <div class="topline">
   <div class="shell">
-    <span><strong>TaijiOS</strong> / workflow reliability layer for AI agents</span>
-    <span>no fake green · no silent skip · no stale latest</span>
+    <span><strong>太极OS</strong> / 面向智能代理工作流的可靠性运营层</span>
+    <span>不假装绿灯 · 不静默跳过 · 不保留旧成功</span>
   </div>
 </div>
 
-<nav class="nav" aria-label="Primary navigation">
+<nav class="nav" aria-label="主导航">
   <div class="shell nav-inner">
     <a class="brand" href="/">
-      <span class="brand-mark">TOS</span>
-      <span>TaijiOS<small>AI ops, audited</small></span>
+      <span class="brand-mark">太</span>
+      <span>太极OS<small>运营已审计</small></span>
     </a>
     <div class="nav-links">
-      <a href="#problem">Problem</a>
-      <a href="#loop">Loop</a>
-      <a href="#quality">Quality</a>
-      <a href="/crystals/">Crystals</a>
-      <a href="/pricing/" class="cta">Pricing</a>
+      <a href="#problem">问题</a>
+      <a href="#loop">闭环</a>
+      <a href="#quality">质量链</a>
+      <a href="/crystals/">晶体池</a>
+      <a href="/pricing/" class="cta">报价</a>
     </div>
   </div>
 </nav>
@@ -912,58 +912,58 @@ footer {
   <section class="hero">
     <div class="shell hero-grid">
       <div>
-        <span class="eyebrow"><span class="dot"></span> Agent systems should fail loudly</span>
-        <h1>AI ops that fails loudly.<span class="cn">把假成功拦在门外。</span></h1>
+        <span class="eyebrow"><span class="dot"></span> 智能代理系统必须暴露失败</span>
+        <h1>失败会主动报警。<span class="cn">把假成功拦在门外。</span></h1>
         <p class="lead">
-          TaijiOS 给 AI Agent 工作流加一层真实运营系统：<strong>先预检，再执行；失败 loud 报；degraded 只进 learning；关键动作留下事件流。</strong>
-          它不是更会聊天的 Agent，而是防止系统看起来成功、实际空转的运营层。
+          太极OS 给智能代理工作流加一层真实运营系统：<strong>先预检，再执行；失败主动报警；降级批次只进学习层；关键动作留下事件流。</strong>
+          它不是更会聊天的助手，而是防止系统看起来成功、实际空转的运营层。
         </p>
         <div class="hero-actions">
           <a class="button primary" href="/pricing/">查看服务报价</a>
           <a class="button dark" href="#loop">看闭环结构</a>
-          <a class="button" href="https://github.com/yangfei222666-9" target="_blank" rel="noopener">GitHub</a>
+          <a class="button" href="https://github.com/yangfei222666-9" target="_blank" rel="noopener">代码仓库</a>
         </div>
-        <div class="hero-proof" aria-label="operating rules">
-          <span>preflight gate</span>
-          <span>event trail</span>
-          <span>degraded mode</span>
-          <span>multi-provider review</span>
-          <span>crystal promote</span>
+        <div class="hero-proof" aria-label="运营规则">
+          <span>预检门禁</span>
+          <span>事件流</span>
+          <span>降级模式</span>
+          <span>多模型复查</span>
+          <span>晶体晋升</span>
         </div>
       </div>
 
-      <aside class="console" aria-label="TaijiOS run console">
+      <aside class="console" aria-label="太极OS 运行面板">
         <div class="console-top">
-          <span>latest_auto_feed / truth panel</span>
+          <span>最新自动产物 / 真相面板</span>
           <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
         </div>
         <div class="status-card">
-          <h2>Verdict before output</h2>
-          <p>每次运行先给状态，再给内容。ok / degraded / failed 不是装饰，是下游能不能消费的硬门禁。</p>
+          <h2>先给结论，再给输出</h2>
+          <p>每次运行先给状态，再给内容。正常 / 降级 / 失败不是装饰，是下游能不能消费的硬门禁。</p>
         </div>
         <div class="run-list">
           <div class="run-item">
-            <span class="tag">RITUAL</span>
-            <span>artifact schema checked</span>
-            <span class="state">verified</span>
+            <span class="tag">仪式</span>
+            <span>产物结构已检查</span>
+            <span class="state">已验证</span>
           </div>
           <div class="run-item warn">
-            <span class="tag">LEARNING</span>
-            <span>provider timeout surfaced</span>
-            <span class="state">degraded</span>
+            <span class="tag">学习层</span>
+            <span>模型通道超时已暴露</span>
+            <span class="state">已降级</span>
           </div>
           <div class="run-item fail">
-            <span class="tag">JUDGMENT</span>
-            <span>blocked by degraded batch</span>
-            <span class="state">stopped</span>
+            <span class="tag">判断链</span>
+            <span>被降级批次拦截</span>
+            <span class="state">已停止</span>
           </div>
         </div>
         <div class="command-line">
-          <span class="comment"># rule</span><br>
-          if <b>preflight.ok</b> is false:<br>
-          &nbsp;&nbsp;write_event(<span class="fail">"blocked"</span>)<br>
-          &nbsp;&nbsp;do_not_refresh(<span class="warn">"latest_success_artifacts"</span>)<br>
-          &nbsp;&nbsp;return <span class="fail">failed</span>
+          <span class="comment"># 规则</span><br>
+          如果 <b>预检通过</b> 为否：<br>
+          &nbsp;&nbsp;写入事件（<span class="fail">"已阻塞"</span>）<br>
+          &nbsp;&nbsp;不要刷新（<span class="warn">"最新成功产物"</span>）<br>
+          &nbsp;&nbsp;返回 <span class="fail">失败</span>
         </div>
       </aside>
     </div>
@@ -973,31 +973,31 @@ footer {
     <div class="shell">
       <div class="section-head">
         <div>
-          <div class="kicker">The expensive failure</div>
-          <h2>Most agent stacks do not die. They pretend to work.</h2>
+          <div class="kicker">昂贵的失败</div>
+          <h2>大多数智能代理系统不会死，只会假装还在工作。</h2>
         </div>
-        <p>真正危险的不是报错，而是旧产物还在、自动化没跑、学习层失败，却被页面包装成“最新成功”。TaijiOS 专门处理这种运营层故障。</p>
+        <p>真正危险的不是报错，而是旧产物还在、自动化没跑、学习层失败，却被页面包装成“最新成功”。太极OS 专门处理这种运营层故障。</p>
       </div>
       <div class="problem-grid">
         <article class="problem-card">
           <div>
             <strong>01</strong>
-            <h3>Stale latest</h3>
-            <p>预检失败后只刷新错误文件，旧 digest 和 action sheet 还留在 latest 目录，下游误以为刚刚成功。</p>
+            <h3>旧成功冒充最新</h3>
+            <p>预检失败后只刷新错误文件，旧摘要和行动表还留在最新目录，下游误以为刚刚成功。</p>
           </div>
         </article>
         <article class="problem-card">
           <div>
             <strong>02</strong>
-            <h3>Silent downgrade</h3>
-            <p>主任务成功、学习层失败，如果没有 degraded 状态，就会被吞成 ok，后面复盘只能翻日志猜。</p>
+            <h3>静默降级</h3>
+            <p>主任务成功、学习层失败，如果没有降级状态，就会被吞成正常，后面复盘只能翻日志猜。</p>
           </div>
         </article>
         <article class="problem-card">
           <div>
             <strong>03</strong>
-            <h3>Bad channel as good</h3>
-            <p>provider、DNS、relay、quota 没验证就当可用，整个系统会在关键路径上制造假进展。</p>
+            <h3>坏通道冒充可用</h3>
+            <p>模型服务、域名解析、中转站、额度没验证就当可用，整个系统会在关键路径上制造假进展。</p>
           </div>
         </article>
       </div>
@@ -1008,42 +1008,42 @@ footer {
     <div class="shell">
       <div class="section-head">
         <div>
-          <div class="kicker">Operating loop</div>
-          <h2>One workflow. Five hard gates.</h2>
+          <div class="kicker">运营闭环</div>
+          <h2>一条工作流，五道硬门禁。</h2>
         </div>
-        <p>TaijiOS 不靠“感觉系统在跑”。每一步都有输入、输出、失败原因和最终仲裁，能停机，也能恢复。</p>
+        <p>太极OS 不靠“感觉系统在跑”。每一步都有输入、输出、失败原因和最终仲裁，能停机，也能恢复。</p>
       </div>
       <div class="loop">
         <div class="loop-grid">
           <div class="loop-step">
-            <span class="num">01 / PREFLIGHT</span>
+            <span class="num">01 / 预检</span>
             <h3>先验通道</h3>
-            <p>DNS、provider、quota、model name、ritual artifact 先过门禁。坏通道不准进入主流程。</p>
+            <p>域名解析、模型服务、额度、模型名、仪式产物先过门禁。坏通道不准进入主流程。</p>
           </div>
           <div class="loop-step accent">
-            <span class="num">02 / RUN</span>
+            <span class="num">02 / 执行</span>
             <h3>执行主链</h3>
-            <p>digest、brain_feed、CV、promote 各自输出 run artifact，不靠聊天记录当系统状态。</p>
+            <p>摘要、学习流、多轮交叉验证、晋升算法各自输出运行产物，不靠聊天记录当系统状态。</p>
           </div>
           <div class="loop-step">
-            <span class="num">03 / EVENT</span>
+            <span class="num">03 / 事件</span>
             <h3>事件流留痕</h3>
             <p>每轮输入、输出、异常、仲裁写入事件流。没有事件流的成功，视为未验证成功。</p>
           </div>
           <div class="loop-step">
-            <span class="num">04 / REVIEW</span>
+            <span class="num">04 / 复查</span>
             <h3>多轮复查</h3>
-            <p>DeepSeek、Doubao、Haiku 与规则仲裁分层，主判断和对抗审不混在一起。</p>
+            <p>深度求索、豆包、海库模型与规则仲裁分层，主判断和对抗审不混在一起。</p>
           </div>
           <div class="loop-step">
-            <span class="num">05 / PROMOTE</span>
+            <span class="num">05 / 晋升</span>
             <h3>晋升或隔离</h3>
-            <p>候选先入学习层，连续命中才可晋升。degraded 永远不能直接进入 judgment 链。</p>
+            <p>候选先入学习层，连续命中才可晋升。降级批次永远不能直接进入判断链。</p>
           </div>
         </div>
         <div class="loop-footer">
-          <span>默认输出：verdict / blocker / next action / risk</span>
-          <span>默认边界：learning_only before judgment</span>
+          <span>默认输出：结论 / 阻塞 / 下一步 / 风险</span>
+          <span>默认边界：先学习层，后判断链</span>
         </div>
       </div>
     </div>
@@ -1053,49 +1053,49 @@ footer {
     <div class="shell">
       <div class="section-head">
         <div>
-          <div class="kicker">Quality chain</div>
+          <div class="kicker">质量链</div>
           <h2>多模型不是堆数量，是分工。</h2>
         </div>
         <p>每个模型承担不同职责。主判断、中文语境、对抗审、规则仲裁分开，才能减少自我合理化。</p>
       </div>
       <div class="quality-grid">
         <div class="quality-panel">
-          <h3>R1 to R4</h3>
-          <p>质量链的目标不是省钱，而是防漂移。relay 可以补位，但关键流程优先走可验证的原生 provider。额度不足、429、鉴权失败必须 loud 报告。</p>
+          <h3>四轮复查</h3>
+          <p>质量链的目标不是省钱，而是防漂移。中转站可以补位，但关键流程优先走可验证的原生模型通道。额度不足、限流、鉴权失败必须大声报告。</p>
           <div class="chain">
             <div class="chain-row">
-              <b>R1</b>
-              <div><strong>DeepSeek v4 flash</strong><span>主判断与快速复查，优先发现工程层问题。</span></div>
+              <b>第一轮</b>
+              <div><strong>深度求索 V4 快速版</strong><span>主判断与快速复查，优先发现工程层问题。</span></div>
             </div>
             <div class="chain-row">
-              <b>R2</b>
-              <div><strong>Doubao</strong><span>中文语境、叙事和易经学习层复核。</span></div>
+              <b>第二轮</b>
+              <div><strong>豆包</strong><span>中文语境、叙事和易经学习层复核。</span></div>
             </div>
             <div class="chain-row">
-              <b>R3</b>
-              <div><strong>Anthropic Haiku</strong><span>对抗审，专门找循环论证、框架漂移和隐藏假设。</span></div>
+              <b>第三轮</b>
+              <div><strong>海库模型</strong><span>对抗审，专门找循环论证、框架漂移和隐藏假设。</span></div>
             </div>
             <div class="chain-row">
-              <b>R4</b>
-              <div><strong>Rules</strong><span>确定性仲裁：ok / degraded / failed，不让模型自己给自己盖章。</span></div>
+              <b>第四轮</b>
+              <div><strong>规则仲裁</strong><span>确定性仲裁：正常 / 降级 / 失败，不让模型自己给自己盖章。</span></div>
             </div>
           </div>
         </div>
-        <div class="code-card" aria-label="event flow example">
-          <span class="comment">// event-flow example</span><br>
+        <div class="code-card" aria-label="事件流示例">
+          <span class="comment">// 事件流示例</span><br>
           {<br>
-          &nbsp;&nbsp;"workflow": <span class="key">"brain_feed"</span>,<br>
-          &nbsp;&nbsp;"preflight": { "signal_arena": <span class="fail">"dns_failed"</span> },<br>
-          &nbsp;&nbsp;"ritual": { "status": <span class="key">"completed"</span> },<br>
-          &nbsp;&nbsp;"learning_layer": { "status": <span class="warn">"blocked"</span> },<br>
-          &nbsp;&nbsp;"final_status": <span class="fail">"failed"</span>,<br>
-          &nbsp;&nbsp;"consumer_rule": <span class="key">"do_not_refresh_latest_success"</span><br>
+          &nbsp;&nbsp;"工作流": <span class="key">"学习流"</span>,<br>
+          &nbsp;&nbsp;"预检": { "信号广场": <span class="fail">"域名解析失败"</span> },<br>
+          &nbsp;&nbsp;"仪式": { "状态": <span class="key">"已完成"</span> },<br>
+          &nbsp;&nbsp;"学习层": { "状态": <span class="warn">"已阻塞"</span> },<br>
+          &nbsp;&nbsp;"最终状态": <span class="fail">"失败"</span>,<br>
+          &nbsp;&nbsp;"消费规则": <span class="key">"不刷新最新成功产物"</span><br>
           }<br><br>
-          <span class="comment">// promotion rule</span><br>
-          candidate.hit_count &gt;= N<br>
-          &amp;&amp; candidate.provider_taint === false<br>
-          &amp;&amp; candidate.judgment_eligible === false<br>
-          &amp;&amp; human_review.passed === true
+          <span class="comment">// 晋升规则</span><br>
+          候选.命中次数 &gt;= N<br>
+          &amp;&amp; 候选.模型污染 === 否<br>
+          &amp;&amp; 候选.可进判断链 === 否<br>
+          &amp;&amp; 人工复核.通过 === 是
         </div>
       </div>
     </div>
@@ -1105,44 +1105,44 @@ footer {
     <div class="shell">
       <div class="section-head">
         <div>
-          <div class="kicker">What you can buy</div>
+          <div class="kicker">可购买服务</div>
           <h2>不是卖愿景，是交付可验证系统能力。</h2>
         </div>
         <p>从一次体检，到自动化快装，再到月度运营陪跑。所有服务只承诺工程交付和风险暴露，不承诺收益。</p>
       </div>
       <div class="product-grid">
         <article class="product-card">
-          <span class="price">D1 · ¥999 起</span>
+          <span class="price">一档 · ¥999 起</span>
           <h3>自动化快装包</h3>
-          <p>把一条业务链跑起来，并交付 doctor 脚本和 handoff 文档。</p>
+          <p>把一条业务链跑起来，并交付自检脚本和交接文档。</p>
           <ul>
             <li>抓取、摘要、推送、归档</li>
-            <li>多 LLM 路由与基础监控</li>
-            <li>7 天 bug 修复支持</li>
+            <li>多模型路由与基础监控</li>
+            <li>7 天缺陷修复支持</li>
           </ul>
-          <a class="card-link" href="/pricing/">查看 D1 细节</a>
+          <a class="card-link" href="/pricing/">查看一档细节</a>
         </article>
         <article class="product-card">
-          <span class="price">D2 · ¥1999 起</span>
-          <h3>AI 系统体检</h3>
-          <p>检查你的 Agent 栈是否存在 silent failure、假接口、坏通道和不可恢复链路。</p>
+          <span class="price">二档 · ¥1999 起</span>
+          <h3>人工智能系统体检</h3>
+          <p>检查你的智能代理栈是否存在静默失败、假接口、坏通道和不可恢复链路。</p>
           <ul>
-            <li>provider probe 与成本瀑布</li>
-            <li>degraded / failed 语义审计</li>
+            <li>模型通道探针与成本瀑布</li>
+            <li>降级 / 失败语义审计</li>
             <li>可执行修复清单</li>
           </ul>
-          <a class="card-link" href="/pricing/">查看 D2 细节</a>
+          <a class="card-link" href="/pricing/">查看二档细节</a>
         </article>
         <article class="product-card">
-          <span class="price">D3 · ¥3000/月 起</span>
+          <span class="price">三档 · ¥3000/月 起</span>
           <h3>运营陪跑</h3>
           <p>让自动化链路持续产出周报、失败原因、待决策项和恢复建议。</p>
           <ul>
-            <li>weekly digest</li>
-            <li>P0 核心 daemon 修复响应</li>
-            <li>每月 review call</li>
+            <li>每周运行摘要</li>
+            <li>核心守护进程修复响应</li>
+            <li>每月复盘会议</li>
           </ul>
-          <a class="card-link" href="/pricing/">查看 D3 细节</a>
+          <a class="card-link" href="/pricing/">查看三档细节</a>
         </article>
       </div>
     </div>
@@ -1152,23 +1152,23 @@ footer {
     <div class="shell">
       <div class="proof">
         <article class="proof-card">
-          <div class="kicker">Public stance</div>
+          <div class="kicker">公开边界</div>
           <h3>我们不把学习层包装成裁决层。</h3>
-          <p>TaijiOS 可以吸收易经、事件样本和多模型意见，但这些都必须先进入 learning_only。没有连续运行、事件流和晋升兑现前，不夸大“自进化”。</p>
+          <p>太极OS 可以吸收易经、事件样本和多模型意见，但这些都必须先进入学习层。没有连续运行、事件流和晋升兑现前，不夸大“自进化”。</p>
           <ul class="proof-list">
-            <li><b>Allowed</b><span>结构化学习、模式沉淀、候选入池、人工复核。</span></li>
-            <li><b>Blocked</b><span>投资判断、足球预测、未验证共识、商业文本复制。</span></li>
-            <li><b>Required</b><span>provider_taint、judgment_eligible、failure_cause_snapshot。</span></li>
+            <li><b>允许</b><span>结构化学习、模式沉淀、候选入池、人工复核。</span></li>
+            <li><b>禁止</b><span>投资判断、足球预测、未验证共识、商业文本复制。</span></li>
+            <li><b>必填</b><span>模型污染标记、判断链资格、失败原因快照。</span></li>
           </ul>
         </article>
         <article class="proof-card">
-          <div class="kicker">Why it matters</div>
-          <h3>AI 系统的护城河不是更多按钮，是可复盘样本。</h3>
-          <p>30 天后仍然成立的东西，才是硬实力。TaijiOS 把 daily ritual、cross validation、promote algorithm 和 quant brain_feed 统一成可追踪事件流，减少“今天热闹、明天找不到证据”的损耗。</p>
+          <div class="kicker">为什么重要</div>
+          <h3>人工智能系统的护城河不是更多按钮，是可复盘样本。</h3>
+          <p>30 天后仍然成立的东西，才是硬实力。太极OS 把每日仪式、多轮交叉验证、晋升算法和量化学习流统一成可追踪事件流，减少“今天热闹、明天找不到证据”的损耗。</p>
           <ul class="proof-list">
-            <li><b>Audit</b><span>每次运行有状态、有证据、有阻塞。</span></li>
-            <li><b>Recover</b><span>失败能停，恢复后能按同一命令链重跑。</span></li>
-            <li><b>Improve</b><span>命中样本进入候选池，过门槛才晋升。</span></li>
+            <li><b>审计</b><span>每次运行有状态、有证据、有阻塞。</span></li>
+            <li><b>恢复</b><span>失败能停，恢复后能按同一命令链重跑。</span></li>
+            <li><b>进化</b><span>命中样本进入候选池，过门槛才晋升。</span></li>
           </ul>
         </article>
       </div>
@@ -1179,8 +1179,8 @@ footer {
     <div class="shell">
       <div class="section-head">
         <div>
-          <div class="kicker">Operating principles</div>
-          <h2>TaijiOS 的规则很少，但很硬。</h2>
+          <div class="kicker">运营原则</div>
+          <h2>太极OS 的规则很少，但很硬。</h2>
         </div>
         <p>这些规则不是口号，是工作流的退出条件和审计标准。</p>
       </div>
@@ -1208,13 +1208,13 @@ footer {
   <section class="section">
     <div class="shell">
       <div class="final-cta">
-        <div class="kicker">Start with one chain</div>
-        <h2>如果你的 AI 工作流已经在跑，先做一次 silent-failure audit。</h2>
-        <p>不用先重构。先把当前链路的预检、失败语义、latest artifact、事件流和恢复命令查清楚。能看见问题，系统才有资格继续进化。</p>
+        <div class="kicker">从一条链开始</div>
+        <h2>如果你的人工智能工作流已经在跑，先做一次静默失败体检。</h2>
+        <p>不用先重构。先把当前链路的预检、失败语义、最新产物、事件流和恢复命令查清楚。能看见问题，系统才有资格继续进化。</p>
         <div class="hero-actions">
           <a class="button" href="/pricing/">查看报价</a>
-          <a class="button" href="mailto:yangfei222666@gmail.com">Email 联系</a>
-          <a class="button" href="https://t.me/shh7799" target="_blank" rel="noopener">Telegram</a>
+          <a class="button" href="mailto:yangfei222666@gmail.com">邮件联系</a>
+          <a class="button" href="https://t.me/shh7799" target="_blank" rel="noopener">电报联系</a>
         </div>
       </div>
     </div>
@@ -1224,15 +1224,15 @@ footer {
 <footer>
   <div class="shell footer-inner">
     <div>
-      <strong>TaijiOS</strong><br>
-      AI operations layer for workflows that must be honest, auditable, and recoverable.
+      <strong>太极OS</strong><br>
+      面向智能代理工作流的可靠性运营层：诚实、可审计、可恢复。
     </div>
     <div class="footer-links">
-      <a href="/pricing/">Pricing</a>
-      <a href="/crystals/">Crystals</a>
-      <a href="/blog.html">Blog</a>
-      <a href="/install/">Install</a>
-      <a href="https://github.com/yangfei222666-9" target="_blank" rel="noopener">GitHub</a>
+      <a href="/pricing/">报价</a>
+      <a href="/crystals/">晶体池</a>
+      <a href="/blog.html">笔记</a>
+      <a href="/install/">安装</a>
+      <a href="https://github.com/yangfei222666-9" target="_blank" rel="noopener">代码仓库</a>
     </div>
   </div>
 </footer>
