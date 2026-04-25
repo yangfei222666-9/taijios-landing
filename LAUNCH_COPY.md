@@ -13,6 +13,8 @@
 首页: https://taijios.xyz/
 报价: https://taijios.xyz/pricing/
 
+价格口径: 按链路复杂度、交付范围、验证深度和是否需要持续运营浮动；报价不是收益承诺，也不是模型效果承诺。
+
 ## X / 更硬一点
 
 多数 AI 自动化不是死在模型不够强, 而是死在 silent failure:
