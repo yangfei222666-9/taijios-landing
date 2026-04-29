@@ -525,13 +525,13 @@ footer { padding: 38px 0 54px; color: var(--muted); font-size: 13px; }
         </article>
         <article class="contact">
           <h3>邮件</h3>
-          <p>适合发系统现状、日志和需求背景。</p>
-          <a href="mailto:yangfei222666@gmail.com" onclick="trackClickEmail(event)">yangfei222666@gmail.com</a>
+          <p>适合发系统现状、日志和需求背景。请优先使用公开 issue。</p>
+          <a href="https://github.com/yangfei222666-9/taiji/issues" target="_blank" rel="noopener" onclick="trackClickEmail(event)">GitHub Issues</a>
         </article>
         <article class="contact">
           <h3>微信</h3>
-          <p>适合国内沟通。加好友请注明“太极OS体检”。</p>
-          <code>yf529486</code>
+          <p>公开页面不展示私人微信。请先走 issue 或电报。</p>
+          <code>private-by-default</code>
         </article>
       </div>
     </div>
@@ -557,7 +557,7 @@ function trackClickEmail(event) {
   event.preventDefault();
   var href = event.currentTarget.href;
   if (window.plausible) {
-    window.plausible('click_email', {
+    window.plausible('click_contact', {
       callback: function () { window.location.href = href; }
     });
     setTimeout(function () { window.location.href = href; }, 300);
