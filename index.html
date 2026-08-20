@@ -1,1240 +1,236 @@
----
-permalink: /
----
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="太极OS是面向智能代理工作流的可靠性运营层：预检、事件流、降级模式、复盘与晋升，防止静默失败被包装成成功。">
-<meta name="keywords" content="太极OS, TaijiOS, 智能代理, 静默失败, 工作流可靠性, 事件流, 降级模式, 人工智能运营">
-<meta name="author" content="太极OS">
-<link rel="canonical" href="https://taijios.xyz/">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://taijios.xyz/">
-<meta property="og:title" content="太极OS · 失败会主动报警的人工智能运营层">
-<meta property="og:description" content="给智能代理工作流加一层真实运营系统：先预检，再执行；失败主动报警；降级批次不进判断链；所有关键动作留下事件流。">
-<meta property="og:image" content="https://taijios.xyz/og.png">
-<meta property="og:locale" content="zh_CN">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="太极OS · 失败会主动报警的人工智能运营层">
-<meta name="twitter:description" content="预检、事件流、降级模式、复盘与晋升。防止人工智能工作流静默失败。">
-<meta name="twitter:image" content="https://taijios.xyz/og.png">
-<title>太极OS · 失败会主动报警的人工智能运营层</title>
+<title>证据门 · Evidence Gate</title>
+<meta name="description" content="证据门 —— 让 Agent 的每一次「已完成」都可查验。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --paper: #f4efe4;
-  --paper-strong: #fff9eb;
-  --ink: #15110d;
-  --ink-soft: #4f463b;
-  --muted: #83786b;
-  --line: rgba(21, 17, 13, 0.14);
-  --line-strong: rgba(21, 17, 13, 0.26);
-  --charcoal: #12100d;
-  --charcoal-2: #1f1a15;
-  --red: #c73422;
-  --red-dark: #8f261b;
-  --teal: #116f66;
-  --teal-soft: #d7e8df;
-  --gold: #c4922e;
-  --cream: #f8f1df;
-  --green: #2f7f4f;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --sans: "Space Grotesk", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --cn: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --serif: "Noto Serif SC", serif;
-  --shadow: 0 24px 80px rgba(31, 26, 21, 0.16);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(199, 52, 34, 0.14), transparent 28rem),
-    radial-gradient(circle at 88% 12%, rgba(17, 111, 102, 0.14), transparent 30rem),
-    linear-gradient(135deg, rgba(21, 17, 13, 0.04) 0 25%, transparent 25% 50%, rgba(21, 17, 13, 0.035) 50% 75%, transparent 75%) 0 0 / 32px 32px,
-    var(--paper);
-  color: var(--ink);
-  font-family: var(--cn);
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.shell {
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
-}
-
-.topline {
-  background: var(--charcoal);
-  color: rgba(255, 249, 235, 0.82);
-  font: 500 12px/1.4 var(--mono);
-  letter-spacing: 0.04em;
-  border-bottom: 1px solid rgba(255, 249, 235, 0.12);
-}
-
-.topline .shell {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 9px 0;
-}
-
-.topline strong {
-  color: var(--paper-strong);
-}
-
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(244, 239, 228, 0.82);
-  border-bottom: 1px solid var(--line);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-}
-
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 72px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--sans);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.brand-mark {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  background: var(--charcoal);
-  color: var(--paper-strong);
-  border-radius: 14px;
-  box-shadow: inset 0 0 0 1px rgba(255, 249, 235, 0.14);
-  font: 700 14px/1 var(--mono);
-}
-
-.brand small {
-  display: block;
-  color: var(--muted);
-  font: 500 11px/1.3 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font: 700 13px/1 var(--mono);
-}
-
-.nav-links a {
-  padding: 11px 13px;
-  border-radius: 999px;
-  color: var(--ink-soft);
-}
-
-.nav-links a:hover {
-  background: rgba(21, 17, 13, 0.06);
-  color: var(--ink);
-}
-
-.nav-links .cta {
-  color: var(--paper-strong);
-  background: var(--red);
-  box-shadow: 0 10px 24px rgba(199, 52, 34, 0.22);
-}
-
-.nav-links .cta:hover {
-  background: var(--red-dark);
-  color: var(--paper-strong);
-}
-
-.hero {
-  padding: 76px 0 42px;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.75fr);
-  gap: 38px;
-  align-items: stretch;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 11px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: rgba(255, 249, 235, 0.58);
-  color: var(--ink-soft);
-  font: 700 12px/1 var(--mono);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 6px rgba(47, 127, 79, 0.12);
-}
-
-h1 {
-  margin: 24px 0 22px;
-  max-width: 760px;
-  font: 900 clamp(56px, 8vw, 116px)/0.9 var(--sans);
-  letter-spacing: -0.075em;
-}
-
-h1 .cn {
-  display: block;
-  margin-top: 14px;
-  font: 900 clamp(28px, 4vw, 54px)/1.05 var(--cn);
-  letter-spacing: -0.055em;
-}
-
-.lead {
-  max-width: 720px;
-  margin: 0 0 28px;
-  color: var(--ink-soft);
-  font-size: clamp(18px, 2vw, 22px);
-  line-height: 1.72;
-}
-
-.lead strong {
-  color: var(--ink);
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 30px 0 26px;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 52px;
-  padding: 0 20px;
-  border-radius: 999px;
-  border: 1px solid var(--line-strong);
-  background: rgba(255, 249, 235, 0.75);
-  color: var(--ink);
-  font: 800 14px/1 var(--mono);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-}
-
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(31, 26, 21, 0.13);
-}
-
-.button.primary {
-  border-color: var(--red);
-  background: var(--red);
-  color: var(--paper-strong);
-}
-
-.button.dark {
-  border-color: var(--charcoal);
-  background: var(--charcoal);
-  color: var(--paper-strong);
-}
-
-.hero-proof {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  color: var(--muted);
-  font: 600 12px/1.4 var(--mono);
-}
-
-.hero-proof span {
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255, 249, 235, 0.48);
-}
-
-.console {
-  position: relative;
-  min-height: 100%;
-  padding: 18px;
-  border-radius: 28px;
-  background:
-    linear-gradient(180deg, rgba(255, 249, 235, 0.09), rgba(255, 249, 235, 0)),
-    var(--charcoal);
-  color: var(--paper-strong);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.console:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 24% 18%, rgba(199, 52, 34, 0.34), transparent 34%),
-    radial-gradient(circle at 90% 5%, rgba(17, 111, 102, 0.3), transparent 30%);
-  pointer-events: none;
-}
-
-.console > * {
-  position: relative;
-}
-
-.console-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 249, 235, 0.12);
-  font: 700 12px/1 var(--mono);
-}
-
-.lights {
-  display: flex;
-  gap: 7px;
-}
-
-.lights i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 249, 235, 0.26);
-}
-
-.lights i:nth-child(1) { background: var(--red); }
-.lights i:nth-child(2) { background: var(--gold); }
-.lights i:nth-child(3) { background: var(--teal); }
-
-.status-card {
-  margin-top: 18px;
-  padding: 20px;
-  border: 1px solid rgba(255, 249, 235, 0.13);
-  border-radius: 22px;
-  background: rgba(255, 249, 235, 0.06);
-}
-
-.status-card h2 {
-  margin: 0 0 8px;
-  font: 800 24px/1.15 var(--sans);
-  letter-spacing: -0.04em;
-}
-
-.status-card p {
-  margin: 0;
-  color: rgba(255, 249, 235, 0.72);
-  font-size: 14px;
-}
-
-.run-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.run-item {
-  display: grid;
-  grid-template-columns: 86px 1fr auto;
-  gap: 12px;
-  align-items: center;
-  padding: 13px;
-  border: 1px solid rgba(255, 249, 235, 0.1);
-  border-radius: 16px;
-  background: rgba(0, 0, 0, 0.14);
-  font: 600 12px/1.35 var(--mono);
-}
-
-.run-item .tag {
-  color: rgba(255, 249, 235, 0.54);
-}
-
-.run-item .state {
-  padding: 6px 8px;
-  border-radius: 999px;
-  background: rgba(47, 127, 79, 0.2);
-  color: #a9f0bf;
-}
-
-.run-item.warn .state {
-  background: rgba(196, 146, 46, 0.2);
-  color: #f4d58b;
-}
-
-.run-item.fail .state {
-  background: rgba(199, 52, 34, 0.2);
-  color: #ffb5aa;
-}
-
-.command-line {
-  margin-top: 18px;
-  padding: 16px;
-  border-radius: 16px;
-  background: rgba(0, 0, 0, 0.28);
-  color: rgba(255, 249, 235, 0.78);
-  font: 500 12px/1.7 var(--mono);
-}
-
-.command-line b {
-  color: #a9f0bf;
-  font-weight: 700;
-}
-
-.section {
-  padding: 80px 0;
-}
-
-.section.compact {
-  padding-top: 34px;
-}
-
-.section-head {
-  display: grid;
-  grid-template-columns: minmax(0, 0.74fr) minmax(260px, 0.36fr);
-  gap: 30px;
-  align-items: end;
-  margin-bottom: 30px;
-}
-
-.kicker {
-  color: var(--red);
-  font: 800 12px/1 var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-h2 {
-  margin: 12px 0 0;
-  font: 900 clamp(34px, 5vw, 64px)/0.98 var(--sans);
-  letter-spacing: -0.06em;
-}
-
-.section-head p {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 17px;
-}
-
-.problem-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.problem-card,
-.product-card,
-.proof-card,
-.principle-card {
-  border: 1px solid var(--line-strong);
-  border-radius: 26px;
-  background: rgba(255, 249, 235, 0.66);
-  box-shadow: 0 18px 54px rgba(31, 26, 21, 0.08);
-}
-
-.problem-card {
-  min-height: 240px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.problem-card strong {
-  display: inline-flex;
-  width: 44px;
-  height: 44px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 15px;
-  background: var(--charcoal);
-  color: var(--paper-strong);
-  font: 800 13px/1 var(--mono);
-}
-
-.problem-card h3,
-.product-card h3,
-.proof-card h3,
-.principle-card h3 {
-  margin: 18px 0 9px;
-  font: 900 24px/1.1 var(--sans);
-  letter-spacing: -0.04em;
-}
-
-.problem-card p,
-.product-card p,
-.proof-card p,
-.principle-card p {
-  margin: 0;
-  color: var(--ink-soft);
-}
-
-.loop {
-  border: 1px solid var(--line-strong);
-  border-radius: 34px;
-  background: var(--charcoal);
-  color: var(--paper-strong);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-}
-
-.loop-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.loop-step {
-  position: relative;
-  min-height: 230px;
-  padding: 26px 22px;
-  border-right: 1px solid rgba(255, 249, 235, 0.12);
-}
-
-.loop-step:last-child {
-  border-right: 0;
-}
-
-.loop-step .num {
-  color: rgba(255, 249, 235, 0.42);
-  font: 800 12px/1 var(--mono);
-}
-
-.loop-step h3 {
-  margin: 54px 0 12px;
-  font: 900 25px/1 var(--sans);
-  letter-spacing: -0.045em;
-}
-
-.loop-step p {
-  margin: 0;
-  color: rgba(255, 249, 235, 0.68);
-  font-size: 14px;
-}
-
-.loop-step.accent {
-  background:
-    linear-gradient(180deg, rgba(199, 52, 34, 0.26), transparent),
-    rgba(255, 249, 235, 0.02);
-}
-
-.loop-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px 26px;
-  border-top: 1px solid rgba(255, 249, 235, 0.12);
-  background: rgba(255, 249, 235, 0.04);
-  color: rgba(255, 249, 235, 0.72);
-  font: 500 13px/1.6 var(--mono);
-}
-
-.quality-grid {
-  display: grid;
-  grid-template-columns: 0.84fr 1.16fr;
-  gap: 18px;
-}
-
-.quality-panel {
-  padding: 26px;
-  border-radius: 30px;
-  background: var(--paper-strong);
-  border: 1px solid var(--line-strong);
-  box-shadow: 0 18px 54px rgba(31, 26, 21, 0.08);
-}
-
-.quality-panel h3 {
-  margin: 0 0 16px;
-  font: 900 31px/1.05 var(--sans);
-  letter-spacing: -0.05em;
-}
-
-.quality-panel p {
-  color: var(--ink-soft);
-}
-
-.chain {
-  display: grid;
-  gap: 12px;
-}
-
-.chain-row {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 14px;
-  padding: 15px;
-  border-radius: 18px;
-  background: rgba(21, 17, 13, 0.04);
-  border: 1px solid var(--line);
-}
-
-.chain-row b {
-  color: var(--red);
-  font: 800 13px/1.2 var(--mono);
-}
-
-.chain-row strong {
-  display: block;
-  margin-bottom: 4px;
-  font: 900 17px/1.1 var(--sans);
-}
-
-.chain-row span {
-  color: var(--ink-soft);
-  font-size: 14px;
-}
-
-.code-card {
-  padding: 24px;
-  border-radius: 30px;
-  background: var(--charcoal);
-  color: var(--paper-strong);
-  box-shadow: var(--shadow);
-  font: 500 13px/1.75 var(--mono);
-}
-
-.code-card .comment {
-  color: rgba(255, 249, 235, 0.46);
-}
-
-.code-card .key {
-  color: #a9f0bf;
-}
-
-.code-card .warn {
-  color: #f4d58b;
-}
-
-.code-card .fail {
-  color: #ffb5aa;
-}
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.product-card {
-  padding: 24px;
-  min-height: 330px;
-  display: flex;
-  flex-direction: column;
-}
-
-.product-card .price {
-  display: inline-flex;
-  align-self: flex-start;
-  margin-bottom: 4px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: var(--teal-soft);
-  color: var(--teal);
-  font: 800 12px/1 var(--mono);
-}
-
-.product-card ul {
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-  color: var(--ink-soft);
-}
-
-.product-card li {
-  position: relative;
-  padding-left: 22px;
-  margin: 10px 0;
-}
-
-.product-card li:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.72em;
-  width: 9px;
-  height: 2px;
-  background: var(--red);
-}
-
-.product-card .card-link {
-  margin-top: auto;
-  padding-top: 24px;
-  color: var(--red);
-  font: 800 13px/1 var(--mono);
-}
-
-.proof {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 18px;
-  align-items: stretch;
-}
-
-.proof-card {
-  padding: 26px;
-}
-
-.proof-list {
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.proof-list li {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 14px;
-  padding: 13px 0;
-  border-top: 1px solid var(--line);
-  color: var(--ink-soft);
-}
-
-.proof-list b {
-  color: var(--ink);
-  font: 800 12px/1.4 var(--mono);
-}
-
-.principles {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.principle-card {
-  padding: 22px;
-  min-height: 210px;
-}
-
-.principle-card h3 {
-  font-size: 20px;
-}
-
-.final-cta {
-  padding: 62px;
-  border-radius: 38px;
-  background:
-    radial-gradient(circle at 78% 20%, rgba(199, 52, 34, 0.28), transparent 28rem),
-    linear-gradient(135deg, var(--charcoal), var(--charcoal-2));
-  color: var(--paper-strong);
-  box-shadow: var(--shadow);
-}
-
-.final-cta h2 {
-  margin: 0;
-  max-width: 800px;
-}
-
-.final-cta p {
-  max-width: 680px;
-  color: rgba(255, 249, 235, 0.72);
-  font-size: 18px;
-}
-
-.final-cta .button {
-  border-color: rgba(255, 249, 235, 0.18);
-  background: var(--paper-strong);
-  color: var(--charcoal);
-}
-
-footer {
-  padding: 38px 0 54px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  font: 700 12px/1 var(--mono);
-}
-
-.footer-links a {
-  color: var(--ink-soft);
-}
-
-@media (max-width: 980px) {
-  .hero-grid,
-  .section-head,
-  .quality-grid,
-  .proof {
-    grid-template-columns: 1fr;
+  :root {
+    --bg: oklch(17.7% 0.034 270);
+    --surface: oklch(22% 0.038 267);
+    --fg: oklch(96% 0.008 250);
+    --muted: oklch(70% 0.022 252);
+    --border: oklch(31% 0.032 266);
+    --accent: oklch(81% 0.14 85);
+    --aqua: oklch(66% 0.12 205);
+    --font-display: "Newsreader", "Noto Serif SC", "Songti SC", "SimSun", serif;
+    --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, -apple-system, "Segoe UI", sans-serif;
   }
 
-  .loop-grid,
-  .problem-grid,
-  .product-grid,
-  .principles {
-    grid-template-columns: 1fr 1fr;
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+      radial-gradient(1000px 520px at 12% -8%, oklch(27% 0.05 262 / 0.8), transparent 60%),
+      radial-gradient(880px 460px at 92% -2%, oklch(24% 0.04 258 / 0.5), transparent 62%),
+      var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
-  .loop-step:nth-child(2n) {
-    border-right: 0;
+  :focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; border-radius: 4px; }
+
+  .app { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- 导航 ---------- */
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 78px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 40px; height: 40px; flex: 0 0 auto;
+    display: grid; place-items: center;
+    color: var(--accent);
+    background: oklch(24% 0.04 265 / 0.7);
+    border: 1px solid oklch(81% 0.14 85 / 0.35);
+    border-radius: 11px;
+    box-shadow: 0 0 22px oklch(81% 0.14 85 / 0.14);
+  }
+  .brand-name { font-size: 18px; font-weight: 700; letter-spacing: 0; line-height: 1.3; }
+  .brand-caption { font-size: 9.5px; font-weight: 500; letter-spacing: 0.1em; color: var(--muted); line-height: 1.3; }
+
+  /* ---------- 主视觉 ---------- */
+  .hero { position: relative; overflow: hidden; padding: 96px 0 104px; }
+  .hero-inner { max-width: 720px; position: relative; z-index: 1; }
+
+  .kicker { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 13px; letter-spacing: 0.02em; color: var(--muted); }
+  .kicker-dot { width: 6px; height: 6px; border-radius: 2px; background: var(--accent); flex: 0 0 auto; }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(42px, 7.4vw, 88px);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    margin: 26px 0 0;
+  }
+  .hero-line { display: block; }
+  .t-quote { font-style: italic; font-weight: 400; }
+  .t-accent { font-style: normal; font-weight: 600; color: var(--accent); }
+
+  .hero-rule { display: block; width: 44px; height: 2px; border-radius: 1px; background: var(--accent); margin: 30px 0 26px; }
+
+  .hero-sub { margin: 0; max-width: 58ch; font-size: 16px; line-height: 1.8; letter-spacing: 0; color: var(--muted); }
+
+  .cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 40px;
+    padding: 17px 30px;
+    border-radius: 12px;
+    border: 1px solid oklch(86% 0.14 85);
+    background: var(--accent);
+    color: oklch(21% 0.02 85);
+    font-family: var(--font-body);
+    font-size: 16px; font-weight: 600; letter-spacing: 0.02em;
+    text-decoration: none;
+    box-shadow: 0 10px 32px oklch(81% 0.14 85 / 0.22);
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .cta:hover { background: oklch(87% 0.14 85); transform: translateY(-1px); box-shadow: 0 14px 40px oklch(81% 0.14 85 / 0.34); }
+  .cta:active { transform: translateY(0); }
+  .cta:focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; }
+  .cta-arrow { display: inline-block; transition: transform 0.18s ease; }
+  .cta:hover .cta-arrow { transform: translateX(3px); }
+
+  .watermark {
+    position: absolute; right: -28px; top: 6px; z-index: 0;
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+    font-size: clamp(240px, 32vw, 480px);
+    line-height: 1;
+    color: oklch(66% 0.12 205 / 0.055);
+    pointer-events: none;
+    user-select: none;
   }
 
-  .loop-step {
-    border-bottom: 1px solid rgba(255, 249, 235, 0.12);
-  }
-}
+  /* ---------- 三条底线 ---------- */
+  .rules { padding: 12px 0 96px; }
+  .section-label { display: flex; align-items: center; gap: 10px; margin: 0 0 26px; font-size: 13px; letter-spacing: 0.02em; color: var(--muted); font-weight: 500; }
+  .section-label::before { content: ""; width: 22px; height: 1px; background: var(--accent); }
 
-@media (max-width: 720px) {
-  .shell {
-    width: min(100% - 28px, 1180px);
-  }
+  .rule-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
-  .topline .shell,
-  .nav-inner,
-  .loop-footer,
-  .footer-inner {
-    flex-direction: column;
-    align-items: flex-start;
+  .rule-card {
+    display: flex; flex-direction: column; gap: 14px;
+    padding: 28px 26px 30px;
+    background: linear-gradient(180deg, oklch(23% 0.04 266 / 0.9), oklch(21% 0.037 268 / 0.92));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 16px 36px oklch(0% 0 0 / 0.26), inset 0 1px 0 oklch(100% 0 0 / 0.04);
+    transition: border-color 0.18s ease, transform 0.18s ease;
   }
+  .rule-card:hover { border-color: oklch(81% 0.14 85 / 0.4); transform: translateY(-2px); }
 
-  .nav-inner {
-    padding: 14px 0;
-    gap: 14px;
+  .rule-num { font-family: var(--font-body); font-size: 22px; font-weight: 700; line-height: 1; color: var(--accent); }
+  .rule-title { margin: 0; font-size: 19px; font-weight: 600; line-height: 1.5; letter-spacing: 0; }
+  .rule-desc { margin: 0; font-size: 15px; line-height: 1.75; letter-spacing: 0; color: var(--muted); }
+
+  /* ---------- 页脚 ---------- */
+  .footer {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 26px 0 40px;
+    border-top: 1px solid var(--border);
+    font-size: 13px; letter-spacing: 0.01em; color: var(--muted);
   }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-brand strong { font-weight: 600; color: var(--fg); }
+  .footer-link { color: var(--muted); text-decoration: none; font-family: var(--font-body); transition: color 0.18s ease; }
+  .footer-link:hover { color: var(--accent); }
 
-  .nav-links {
-    width: 100%;
-    flex-wrap: wrap;
-    overflow-x: visible;
-    padding-bottom: 0;
-  }
-
-  .nav-links a {
-    padding: 10px 11px;
-  }
-
-  .hero {
-    padding-top: 44px;
-  }
-
-  h1 {
-    font-size: clamp(40px, 13.5vw, 64px);
-  }
-
-  .console,
-  .final-cta {
-    border-radius: 24px;
+  /* ---------- 响应式 ---------- */
+  @media (max-width: 880px) {
+    .app { padding: 0 20px; }
+    .nav { height: 66px; }
+    .hero { padding: 60px 0 72px; }
+    .watermark { display: none; }
+    .rule-grid { grid-template-columns: 1fr; }
+    .rules { padding-bottom: 72px; }
   }
 
-  .problem-grid,
-  .product-grid,
-  .principles,
-  .loop-grid {
-    grid-template-columns: 1fr;
+  @media (max-width: 560px) {
+    .hero-title { font-size: clamp(38px, 11vw, 52px); line-height: 1.1; }
+    .hero-sub { font-size: 15px; }
+    .cta { width: 100%; justify-content: center; }
+    .rule-card { padding: 24px 22px 26px; }
+    .footer { flex-direction: column; align-items: flex-start; gap: 8px; }
   }
-
-  .loop-step {
-    border-right: 0;
-  }
-
-  .run-item {
-    grid-template-columns: 1fr;
-  }
-
-  .proof-list li {
-    grid-template-columns: 1fr;
-  }
-
-  .final-cta {
-    padding: 32px 24px;
-  }
-}
 </style>
-{% include analytics.html %}
 </head>
 <body>
-<div class="topline">
-  <div class="shell">
-    <span><strong>太极OS</strong> / 面向智能代理工作流的可靠性运营层</span>
-    <span>不假装绿灯 · 不静默跳过 · 不保留旧成功</span>
+  <div class="app">
+    <!-- 导航 -->
+    <header class="nav" data-od-id="nav">
+      <div class="brand" data-od-id="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M8 9 V26" />
+            <path d="M24 9 V26" />
+            <path d="M8 9 H24" />
+            <circle cx="16" cy="19" r="2.2" fill="currentColor" stroke="none" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">证据门</div>
+          <div class="brand-caption">EVIDENCE GATE</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主视觉 -->
+    <section class="hero" data-od-id="hero">
+      <span class="watermark" aria-hidden="true">证</span>
+      <div class="hero-inner">
+        <p class="kicker"><span class="kicker-dot" aria-hidden="true"></span>证据门 · 三条底线</p>
+        <h1 class="hero-title" data-od-id="hero-title">
+          <span class="hero-line">Agent said <em class="t-quote">done.</em></span>
+          <span class="hero-line">Where is the <em class="t-accent">evidence?</em></span>
+        </h1>
+        <span class="hero-rule" aria-hidden="true"></span>
+        <p class="hero-sub">把「做完了」变成「经得起验证」。<br>证据门为 Agent 的每一次完成，建立可查验的证据链。</p>
+        <a class="cta" href="https://taiji-evidence-gate.netlify.app" target="_blank" rel="noopener noreferrer" data-od-id="cta-verify">
+          <span>5 分钟亲自验证</span>
+          <span class="cta-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 三条底线 -->
+    <section class="rules" data-od-id="rules">
+      <h2 class="section-label">三条底线</h2>
+      <div class="rule-grid">
+        <article class="rule-card" data-od-id="rule-card-evidence">
+          <span class="rule-num" aria-hidden="true">①</span>
+          <h3 class="rule-title">说做完，要有可查验的证据</h3>
+          <p class="rule-desc">「已完成」必须能指向可复核的产物与记录。</p>
+        </article>
+        <article class="rule-card" data-od-id="rule-card-checks">
+          <span class="rule-num" aria-hidden="true">②</span>
+          <h3 class="rule-title">该过的检查要真的能跑</h3>
+          <p class="rule-desc">测试、构建与校验，都必须真实执行、可重复触发。</p>
+        </article>
+        <article class="rule-card" data-od-id="rule-card-noclaim">
+          <span class="rule-num" aria-hidden="true">③</span>
+          <h3 class="rule-title">拿不准的必须写「不能宣称」</h3>
+          <p class="rule-desc">不确定，就明确写下「不能宣称」，不默认、不夸大。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer" data-od-id="footer">
+      <div class="footer-brand"><strong>证据门</strong><span>· Evidence Gate</span></div>
+      <a class="footer-link" href="https://taiji-evidence-gate.netlify.app" target="_blank" rel="noopener noreferrer">taiji-evidence-gate.netlify.app</a>
+    </footer>
   </div>
-</div>
-
-<nav class="nav" aria-label="主导航">
-  <div class="shell nav-inner">
-    <a class="brand" href="/">
-      <span class="brand-mark">太</span>
-      <span>太极OS<small>运营已审计</small></span>
-    </a>
-    <div class="nav-links">
-      <a href="#problem">问题</a>
-      <a href="#loop">闭环</a>
-      <a href="#quality">质量链</a>
-      <a href="/crystals/">经验池</a>
-      <a href="/pricing/" class="cta">报价</a>
-    </div>
-  </div>
-</nav>
-
-<main>
-  <section class="hero">
-    <div class="shell hero-grid">
-      <div>
-        <span class="eyebrow"><span class="dot"></span> 智能代理系统必须暴露失败</span>
-        <h1>失败会主动报警。<span class="cn">把假成功拦在门外。</span></h1>
-        <p class="lead">
-          太极OS 给智能代理工作流加一层真实运营系统：<strong>先预检，再执行；失败主动报警；降级批次只进学习层；关键动作留下事件流。</strong>
-          它不是更会聊天的助手，而是防止系统看起来成功、实际空转的运营层。
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" href="/pricing/">查看服务报价</a>
-          <a class="button dark" href="#loop">看闭环结构</a>
-          <a class="button" href="https://github.com/yangfei222666-9" target="_blank" rel="noopener">代码仓库</a>
-        </div>
-        <div class="hero-proof" aria-label="运营规则">
-          <span>预检门禁</span>
-          <span>事件流</span>
-          <span>降级模式</span>
-          <span>多模型复查</span>
-          <span>经验晋升</span>
-        </div>
-      </div>
-
-      <aside class="console" aria-label="太极OS 运行面板">
-        <div class="console-top">
-          <span>最新自动产物 / 真相面板</span>
-          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-        </div>
-        <div class="status-card">
-          <h2>先给结论，再给输出</h2>
-          <p>每次运行先给状态，再给内容。正常 / 降级 / 失败不是装饰，是下游能不能消费的硬门禁。</p>
-        </div>
-        <div class="run-list">
-          <div class="run-item">
-            <span class="tag">仪式</span>
-            <span>产物结构已检查</span>
-            <span class="state">已验证</span>
-          </div>
-          <div class="run-item warn">
-            <span class="tag">学习层</span>
-            <span>模型通道超时已暴露</span>
-            <span class="state">已降级</span>
-          </div>
-          <div class="run-item fail">
-            <span class="tag">判断链</span>
-            <span>被降级批次拦截</span>
-            <span class="state">已停止</span>
-          </div>
-        </div>
-        <div class="command-line">
-          <span class="comment"># 规则</span><br>
-          如果 <b>预检通过</b> 为否：<br>
-          &nbsp;&nbsp;写入事件（<span class="fail">"已阻塞"</span>）<br>
-          &nbsp;&nbsp;不要刷新（<span class="warn">"最新成功产物"</span>）<br>
-          &nbsp;&nbsp;返回 <span class="fail">失败</span>
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <section id="problem" class="section compact">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <div class="kicker">昂贵的失败</div>
-          <h2>大多数智能代理系统不会死，只会假装还在工作。</h2>
-        </div>
-        <p>真正危险的不是报错，而是旧产物还在、自动化没跑、学习层失败，却被页面包装成“最新成功”。太极OS 专门处理这种运营层故障。</p>
-      </div>
-      <div class="problem-grid">
-        <article class="problem-card">
-          <div>
-            <strong>01</strong>
-            <h3>旧成功冒充最新</h3>
-            <p>预检失败后只刷新错误文件，旧摘要和行动表还留在最新目录，下游误以为刚刚成功。</p>
-          </div>
-        </article>
-        <article class="problem-card">
-          <div>
-            <strong>02</strong>
-            <h3>静默降级</h3>
-            <p>主任务成功、学习层失败，如果没有降级状态，就会被吞成正常，后面复盘只能翻日志猜。</p>
-          </div>
-        </article>
-        <article class="problem-card">
-          <div>
-            <strong>03</strong>
-            <h3>坏通道冒充可用</h3>
-            <p>模型服务、域名解析、中转站、额度没验证就当可用，整个系统会在关键路径上制造假进展。</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="loop" class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <div class="kicker">运营闭环</div>
-          <h2>一条工作流，五道硬门禁。</h2>
-        </div>
-        <p>太极OS 不靠“感觉系统在跑”。每一步都有输入、输出、失败原因和最终仲裁，能停机，也能恢复。</p>
-      </div>
-      <div class="loop">
-        <div class="loop-grid">
-          <div class="loop-step">
-            <span class="num">01 / 预检</span>
-            <h3>先验通道</h3>
-            <p>域名解析、模型服务、额度、模型名、仪式产物先过门禁。坏通道不准进入主流程。</p>
-          </div>
-          <div class="loop-step accent">
-            <span class="num">02 / 执行</span>
-            <h3>执行主链</h3>
-            <p>摘要、学习流、多轮交叉验证、晋升算法各自输出运行产物，不靠聊天记录当系统状态。</p>
-          </div>
-          <div class="loop-step">
-            <span class="num">03 / 事件</span>
-            <h3>事件流留痕</h3>
-            <p>每轮输入、输出、异常、仲裁写入事件流。没有事件流的成功，视为未验证成功。</p>
-          </div>
-          <div class="loop-step">
-            <span class="num">04 / 复查</span>
-            <h3>多轮复查</h3>
-            <p>深度求索、豆包、海库模型与规则仲裁分层，主判断和对抗审不混在一起。</p>
-          </div>
-          <div class="loop-step">
-            <span class="num">05 / 晋升</span>
-            <h3>晋升或隔离</h3>
-            <p>候选先入学习层，连续命中才可晋升。降级批次永远不能直接进入判断链。</p>
-          </div>
-        </div>
-        <div class="loop-footer">
-          <span>默认输出：结论 / 阻塞 / 下一步 / 风险</span>
-          <span>默认边界：先学习层，后判断链</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="quality" class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <div class="kicker">质量链</div>
-          <h2>多模型不是堆数量，是分工。</h2>
-        </div>
-        <p>每个模型承担不同职责。主判断、中文语境、对抗审、规则仲裁分开，才能减少自我合理化。</p>
-      </div>
-      <div class="quality-grid">
-        <div class="quality-panel">
-          <h3>四轮复查</h3>
-          <p>质量链的目标不是省钱，而是防漂移。中转站可以补位，但关键流程优先走可验证的原生模型通道。额度不足、限流、鉴权失败必须大声报告。</p>
-          <div class="chain">
-            <div class="chain-row">
-              <b>第一轮</b>
-              <div><strong>深度求索 V4 快速版</strong><span>主判断与快速复查，优先发现工程层问题。</span></div>
-            </div>
-            <div class="chain-row">
-              <b>第二轮</b>
-              <div><strong>豆包</strong><span>中文语境、叙事和易经学习层复核。</span></div>
-            </div>
-            <div class="chain-row">
-              <b>第三轮</b>
-              <div><strong>海库模型</strong><span>对抗审，专门找循环论证、框架漂移和隐藏假设。</span></div>
-            </div>
-            <div class="chain-row">
-              <b>第四轮</b>
-              <div><strong>规则仲裁</strong><span>确定性仲裁：正常 / 降级 / 失败，不让模型自己给自己盖章。</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="code-card" aria-label="事件流示例">
-          <span class="comment">// 事件流示例</span><br>
-          {<br>
-          &nbsp;&nbsp;"工作流": <span class="key">"学习流"</span>,<br>
-          &nbsp;&nbsp;"预检": { "信号广场": <span class="fail">"域名解析失败"</span> },<br>
-          &nbsp;&nbsp;"仪式": { "状态": <span class="key">"已完成"</span> },<br>
-          &nbsp;&nbsp;"学习层": { "状态": <span class="warn">"已阻塞"</span> },<br>
-          &nbsp;&nbsp;"最终状态": <span class="fail">"失败"</span>,<br>
-          &nbsp;&nbsp;"消费规则": <span class="key">"不刷新最新成功产物"</span><br>
-          }<br><br>
-          <span class="comment">// 晋升规则</span><br>
-          候选.命中次数 &gt;= N<br>
-          &amp;&amp; 候选.模型污染 === 否<br>
-          &amp;&amp; 候选.可进判断链 === 否<br>
-          &amp;&amp; 人工复核.通过 === 是
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="products" class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <div class="kicker">可购买服务</div>
-          <h2>不是卖愿景，是交付可验证系统能力。</h2>
-        </div>
-        <p>从一次体检，到自动化快装，再到月度运营陪跑。所有服务只承诺工程交付和风险暴露，不承诺收益。</p>
-      </div>
-      <div class="product-grid">
-        <article class="product-card">
-          <span class="price">一档 · ¥999 起</span>
-          <h3>自动化快装包</h3>
-          <p>把一条业务链跑起来，并交付自检脚本和交接文档。</p>
-          <ul>
-            <li>抓取、摘要、推送、归档</li>
-            <li>多模型路由与基础监控</li>
-            <li>7 天缺陷修复支持</li>
-          </ul>
-          <a class="card-link" href="/pricing/">查看一档细节</a>
-        </article>
-        <article class="product-card">
-          <span class="price">二档 · ¥1999 起</span>
-          <h3>人工智能系统体检</h3>
-          <p>检查你的智能代理栈是否存在静默失败、假接口、坏通道和不可恢复链路。</p>
-          <ul>
-            <li>模型通道探针与成本瀑布</li>
-            <li>降级 / 失败语义审计</li>
-            <li>可执行修复清单</li>
-          </ul>
-          <a class="card-link" href="/pricing/">查看二档细节</a>
-        </article>
-        <article class="product-card">
-          <span class="price">三档 · ¥3000/月 起</span>
-          <h3>运营陪跑</h3>
-          <p>让自动化链路持续产出周报、失败原因、待决策项和恢复建议。</p>
-          <ul>
-            <li>每周运行摘要</li>
-            <li>核心守护进程修复响应</li>
-            <li>每月复盘会议</li>
-          </ul>
-          <a class="card-link" href="/pricing/">查看三档细节</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="proof" class="section">
-    <div class="shell">
-      <div class="proof">
-        <article class="proof-card">
-          <div class="kicker">公开边界</div>
-          <h3>我们不把学习层包装成裁决层。</h3>
-          <p>太极OS 可以吸收易经、事件样本和多模型意见，但这些都必须先进入学习层。没有连续运行、事件流和晋升兑现前，不夸大“自进化”。</p>
-          <ul class="proof-list">
-            <li><b>允许</b><span>结构化学习、模式沉淀、候选入池、人工复核。</span></li>
-            <li><b>禁止</b><span>投资判断、足球预测、未验证共识、商业文本复制。</span></li>
-            <li><b>必填</b><span>模型污染标记、判断链资格、失败原因快照。</span></li>
-          </ul>
-        </article>
-        <article class="proof-card">
-          <div class="kicker">为什么重要</div>
-          <h3>人工智能系统的护城河不是更多按钮，是可复盘样本。</h3>
-          <p>30 天后仍然成立的东西，才是硬实力。太极OS 把每日仪式、多轮交叉验证、晋升算法和量化学习流统一成可追踪事件流，减少“今天热闹、明天找不到证据”的损耗。</p>
-          <ul class="proof-list">
-            <li><b>审计</b><span>每次运行有状态、有证据、有阻塞。</span></li>
-            <li><b>恢复</b><span>失败能停，恢复后能按同一命令链重跑。</span></li>
-            <li><b>进化</b><span>命中样本进入候选池，过门槛才晋升。</span></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <div class="kicker">运营原则</div>
-          <h2>太极OS 的规则很少，但很硬。</h2>
-        </div>
-        <p>这些规则不是口号，是工作流的退出条件和审计标准。</p>
-      </div>
-      <div class="principles">
-        <article class="principle-card">
-          <h3>不假装成功</h3>
-          <p>失败、未验证、阻塞、假活必须明确指出。</p>
-        </article>
-        <article class="principle-card">
-          <h3>不把坏通道当可用</h3>
-          <p>服务没验证、自动化没心跳、数据没落地，都不算完成。</p>
-        </article>
-        <article class="principle-card">
-          <h3>先收口，再扩张</h3>
-          <p>每次只补最小闭环，不用新工具掩盖旧阻塞。</p>
-        </article>
-        <article class="principle-card">
-          <h3>输出必须可执行</h3>
-          <p>给顺序、动作、检查点和风险，不给空话。</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell">
-      <div class="final-cta">
-        <div class="kicker">从一条链开始</div>
-        <h2>如果你的人工智能工作流已经在跑，先做一次静默失败体检。</h2>
-        <p>不用先重构。先把当前链路的预检、失败语义、最新产物、事件流和恢复命令查清楚。能看见问题，系统才有资格继续进化。</p>
-        <div class="hero-actions">
-          <a class="button" href="/pricing/">查看报价</a>
-          <a class="button" href="https://github.com/yangfei222666-9/taiji/issues" target="_blank" rel="noopener">GitHub Issue</a>
-          <a class="button" href="https://t.me/shh7799" target="_blank" rel="noopener">电报联系</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="shell footer-inner">
-    <div>
-      <strong>太极OS</strong><br>
-      面向智能代理工作流的可靠性运营层：诚实、可审计、可恢复。
-    </div>
-    <div class="footer-links">
-      <a href="/pricing/">报价</a>
-      <a href="/crystals/">经验池</a>
-      <a href="/blog.html">笔记</a>
-      <a href="/install/">安装</a>
-      <a href="https://github.com/yangfei222666-9" target="_blank" rel="noopener">代码仓库</a>
-    </div>
-  </div>
-</footer>
 </body>
 </html>
